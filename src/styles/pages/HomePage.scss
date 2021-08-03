@@ -1,0 +1,27 @@
+.Home {
+    .content {
+        flex-grow: 1;
+        max-width: 56rem;
+        flex-grow: 1;
+        align-self: center;
+        display: flex;
+        flex-direction: column;
+        padding: 4rem 0;
+    }
+    .header-text {
+        font-size: 4rem;
+        letter-spacing: .2rem;
+        font-family: 'Montserrat', sans-serif;
+        margin-bottom: 3rem;
+        align-self: center;
+    }
+    .welcome-text {
+        margin-bottom: 3rem;
+    }
+    .headshot {
+        --size: 30rem;
+        width: var(--size);
+        height: var(--size);
+        align-self: center;
+    }
+}

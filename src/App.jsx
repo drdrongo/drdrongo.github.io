@@ -1,49 +1,41 @@
-import './styles/App.scss';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
-import Navbar from './components/Navbar';
+import 'styles/App.scss';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Navbar from 'components/Navbar';
+import HomePage from 'pages/HomePage.jsx';
+import AboutPage from 'pages/AboutPage.jsx';
+import { CSSTransition } from 'react-transition-group';
 
-function App() {
-  return (
-    <Router>
-      <Navbar/>
-      <div>
-        {/* A <Switch> looks through its children <Route>s and renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/users">
-            <Users />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
-  );
-}
+const routes = [
+	{ path: '/', name: 'Home', Component: HomePage },
+	{ path: '/about', name: 'About', Component: AboutPage },
+];
 
-function Home() {
-  return (
-    <>
-    <h2>Home</h2>
-    <h3>Welcome to my BIG BIG HOME!</h3>
-    </>
-  );
-}
-
-function About() {
-  return <h2>This is where my about will be</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
-}
-
+const App = () => {
+	return (
+		<Router>
+			<Navbar routes={routes} />
+			<Switch>
+				<div className="container">
+					{routes.map(({ path, name, Component }) => (
+						<Route key={path} exact path={path}>
+						{({ match }) => (
+							<CSSTransition
+								in={match != null}
+								timeout={250}
+								classNames="page"
+								unmountOnExit
+							>
+								<div className={`${name} page`}>
+									<Component />
+								</div>
+							</CSSTransition>
+						)}
+						</Route>
+					))}
+				</div>
+			</Switch>
+		</Router>
+	);
+};
 
 export default App;

@@ -1,36 +1,26 @@
-import '../styles/components/Navbar.scss';
-import React, { useMemo, useState } from 'react';
+import 'styles/components/Navbar.scss';
+import React from 'react';
 import {
-    Link
+    Link,
+    useLocation
 } from "react-router-dom";
 
-const routes = {
-    '/': 'Home',
-    '/about': 'About',
-    '/users': 'Users',
-}
-
-const Navbar = () => {
-    const [currPage, setCurrPage] = useState('/');
-    const navbarItems = useMemo(() => {
-        return Object.entries(routes).map(([k, v]) => (
-            <li
-                key={v}
-                className={`navbar__item ${k===currPage ? 'on' : ''}`}
-                onClick={() => setCurrPage(k)}
-            >
-                <Link to={k}>{v}</Link>
-            </li>
-        ))
-    }, [currPage]);
-    
+const Navbar = ({ routes }) => {
+    const location = useLocation();
     return (
         <nav className="navbar">
             <ul className="navbar__inner">
-                {navbarItems}
+            {routes.map(({ path, name }) => (
+                <li
+                    key={path}
+                    className={`navbar__item ${path === location.pathname ? 'on' : ''}`}
+                >
+                    <Link to={path}>{name}</Link>
+                </li>
+            ))}
             </ul>
         </nav>
     );
-}
+};
 
 export default Navbar;
