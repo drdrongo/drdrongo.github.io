@@ -3,11 +3,13 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from 'components/Navbar';
 import HomePage from 'pages/HomePage.jsx';
 import AboutPage from 'pages/AboutPage.jsx';
+import ProjectsPage from 'pages/ProjectsPage.jsx';
 import { CSSTransition } from 'react-transition-group';
 
 const routes = [
-	{ path: '/', name: 'Home', Component: HomePage },
-	{ path: '/about', name: 'About', Component: AboutPage },
+	{ path: '/portfolio/', name: 'Home', Component: HomePage },
+	{ path: '/portfolio/about', name: 'About', Component: AboutPage },
+	{ path: '/portfolio/projects', name: 'Projects', Component: ProjectsPage },
 ];
 
 const App = () => {
