@@ -34,73 +34,73 @@ const DrumMachine = () => {
         audio.play();    
     }, []);
 
-    useEffect(() => {
-        const keys = drumSounds.map(ds => ds.key);
-        const playOnKeyDown = e => {
-            const { sound } = drumSounds.find(ds => ds.key === e.key.toLowerCase());
-            play(sound);
-        };
+    // useEffect(() => {
+    //     const keys = drumSounds.map(ds => ds.key);
+    //     const playOnKeyDown = e => {
+    //         const { sound } = drumSounds.find(ds => ds.key === e.key.toLowerCase());
+    //         play(sound);
+    //     };
 
-        const onKeyDown = e => {
-            if (e.repeat || !keys.includes(e.key.toLowerCase())) return;
+    //     const onKeyDown = e => {
+    //         if (e.repeat || !keys.includes(e.key.toLowerCase())) return;
 
-            playOnKeyDown(e);
-            document.getElementById(`${e.key.toLowerCase()}-key`).classList.add('pressed');
-        };
-        const onKeyUp = e => {
-            if (e.repeat || !keys.includes(e.key.toLowerCase())) return;
+    //         playOnKeyDown(e);
+    //         document.getElementById(`${e.key.toLowerCase()}-key`).classList.add('pressed');
+    //     };
+    //     const onKeyUp = e => {
+    //         if (e.repeat || !keys.includes(e.key.toLowerCase())) return;
 
-            document.getElementById(`${e.key.toLowerCase()}-key`).classList.remove('pressed');
-        };
+    //         document.getElementById(`${e.key.toLowerCase()}-key`).classList.remove('pressed');
+    //     };
         
-        document.addEventListener('keydown', onKeyDown);
-        document.addEventListener('keyup', onKeyUp);
+    //     document.addEventListener('keydown', onKeyDown);
+    //     document.addEventListener('keyup', onKeyUp);
 
-        return () => {
-            document.removeEventListener('keydown', onKeyDown);
-            document.removeEventListener('keyup', onKeyUp);
-        };
-    }, [drumSounds, play]);
+    //     return () => {
+    //         document.removeEventListener('keydown', onKeyDown);
+    //         document.removeEventListener('keyup', onKeyUp);
+    //     };
+    // }, [drumSounds, play]);
 
 
     const drumContainer = useRef(null);
     const [containerWidth, setContainerWidth] = useState(window.innerWidth * 0.9);
 
-    useEffect(() => {
-        window.addEventListener('resize', () => {
-            console.log("resizing!", drumContainer.current.offsetWidth)
-            setContainerWidth(drumContainer.current.offsetWidth * .9);
-        });
-    }, []);
+    // useEffect(() => {
+    //     window.addEventListener('resize', () => {
+    //         console.log("resizing!", drumContainer.current.offsetWidth)
+    //         setContainerWidth(drumContainer.current.offsetWidth * .9);
+    //     });
+    // }, []);
 
-    const drumButtons = useMemo(() => {
-        const startAngle = (Math.PI / drumSounds.length),
-              radius = 260,
-              offset = containerWidth / 2;
+    // const drumButtons = useMemo(() => {
+    //     const startAngle = (Math.PI / drumSounds.length),
+    //           radius = 260,
+    //           offset = containerWidth / 2;
 
-        let angle = startAngle + 5.8;
-        return drumSounds.map(({ name, sound, key }) => {
-            angle += startAngle;
-            return (
-                <button
-                    id={`${key}-key`}
-                    className={`drum-button`}
-                    style={{
-                        position: 'absolute',
-                        right: radius * Math.cos( angle ) + offset + "px",
-                        bottom: (radius * Math.sin( angle ) + 120) + "px"
-                    }}
-                    key={name}
-                    onMouseDown={e => {
-                        play(sound);
-                        e.currentTarget.classList.add('pressed');
-                    }}
-                    onMouseUp={e => e.currentTarget.classList.remove('pressed')}
-                    onMouseOut={e => e.currentTarget.classList.remove('pressed')}
-                >
-                    <span className="drum-key">{key}</span>
-                    <span className="drum-name">{name}</span>
-                </button>
+    //     let angle = startAngle + 5.8;
+    //     return drumSounds.map(({ name, sound, key }) => {
+    //         angle += startAngle;
+    //         return (
+    //             <button
+    //                 id={`${key}-key`}
+    //                 className={`drum-button`}
+    //                 style={{
+    //                     position: 'absolute',
+    //                     right: radius * Math.cos( angle ) + offset + "px",
+    //                     bottom: (radius * Math.sin( angle ) + 120) + "px"
+    //                 }}
+    //                 key={name}
+    //                 onMouseDown={e => {
+    //                     play(sound);
+    //                     e.currentTarget.classList.add('pressed');
+    //                 }}
+    //                 onMouseUp={e => e.currentTarget.classList.remove('pressed')}
+    //                 onMouseOut={e => e.currentTarget.classList.remove('pressed')}
+    //             >
+    //                 <span className="drum-key">{key}</span>
+    //                 <span className="drum-name">{name}</span>
+    //             </button>
 
 
                 
@@ -109,29 +109,30 @@ const DrumMachine = () => {
 
 
 
-            );
-        }
-    )}, [containerWidth, drumSounds, play]);
+    //         );
+    //     }
+    // )}, [containerWidth, drumSounds, play]);
 
 
     return (
         <div
             className="DrumMachine-outer"
             ref={drumContainer}
-            style={{ backgroundImage: `url(${background})` }}
+            style={{backgroundColor: 'rgba(140,140,200,0.2)'}}
+            // style={{ backgroundImage: `url(${background})` }}
         >
-            {/* <div
-                style={{
-                    position: 'relative',
-                    width: containerWidth,
-                    height: '100%',
-                    border: '1px solid red'
-                }}
-            >
-                {drumButtons}
-            </div> */}
-            {<DrumKit/>}
+        {/* //     <div
+        //         style={{
+        //             position: 'relative',
+        //             width: containerWidth,
+        //             height: '100%',
+        //             border: '1px solid red'
+        //         }}
+        //     >
+        //         {drumButtons}
+        //     </div> */}
 
+            <DrumKit/>
         </div>
     );
 };

@@ -1,26 +1,62 @@
 import React, { useEffect, useCallback, useMemo } from 'react'
 
+import boom from 'assets/sounds/DrumMachine/boom.wav';
+// import clap from 'assets/sounds/DrumMachine/clap.wav';
+import hihat from 'assets/sounds/DrumMachine/hihat.wav';
+import kick from 'assets/sounds/DrumMachine/kick.wav';
+// import openhat from 'assets/sounds/DrumMachine/openhat.wav';
+import ride from 'assets/sounds/DrumMachine/ride.wav';
+import snare from 'assets/sounds/DrumMachine/snare.wav';
+import tink from 'assets/sounds/DrumMachine/tink.wav';
+import tom from 'assets/sounds/DrumMachine/tom.wav';
 const DrumKit = () => {
 
-    const names = useMemo(() => ([
-        'Anim-Hihat',
-        'Anim-Ride',
-        'Anim-Bass',
-        'Anim-Snare',
-        'Anim-FloorTom',
-        'Anim-RightTom',
-        'Anim-LeftTom',
-    ]), []);
+    const drums = useMemo(() => ({
+        k: {key: 'k', id: 'Anim-Hihat', audio: new Audio(hihat)},
+        s: {key: 's', id: 'Anim-Ride', audio: new Audio(ride)},
+        g: {key: 'g', id: 'Anim-Bass', audio: new Audio(kick)},
+        j: {key: 'j', id: 'Anim-Snare', audio: new Audio(snare)},
+        d: {key: 'd', id: 'Anim-FloorTom', audio: new Audio(boom)},
+        h: {key: 'h', id: 'Anim-RightTom', audio: new Audio(tink)},
+        f: {key: 'f', id: 'Anim-LeftTom', audio: new Audio(tom)},
+    }), []);
+
+    const play = useCallback(audio => {
+        if (!audio) return;
+
+        audio.pause();
+        audio.currentTime = 0;
+        audio.play();    
+    }, []);
+    const onKeyDown = useCallback(({e, key, drum, audio}) => {
+        if (!e.repeat && drums[e.key] && e.key === key) {
+            drum.classList.add('animating');
+            play(audio);
+        }
+    }, [drums, play])
+    const onKeyUp = useCallback(({e, key, drum}) => {
+        if (drums[e.key] && e.key === key) drum.classList.remove('animating');
+    }, [drums])
 
     const addAnimations = useCallback(() => {
-        names.forEach(name => {
-            document.getElementById(name).classList.add('animated');
-        })
-    }, [names]);
+        Object.values(drums).forEach(({ id, key, audio }) => {
+            const drum = document.getElementById(id);
+            drum.classList.add('animated');
+            document.addEventListener('keydown', e => onKeyDown({e, key, drum, audio}));
+            document.addEventListener('keyup', e => onKeyUp({e, key, drum}));
+        });
+    }, [drums, onKeyDown, onKeyUp]);
 
     useEffect(() => {
         addAnimations();
-    }, [addAnimations]);
+        return () => {
+            Object.values(drums).forEach(({ id, key, audio }) => {
+                const drum = document.getElementById(id);
+                document.removeEventListener('keydown', e => onKeyDown({e, key, drum, audio}));
+                document.removeEventListener('keyup', e => onKeyUp({e, key, drum}));
+            });
+        }
+    }, [addAnimations, drums, onKeyDown, onKeyUp]);
 
     return (
         <svg width="1542" height="894" viewBox="0 0 1542 894" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -28,13 +64,7 @@ const DrumKit = () => {
                 <path id="Shadow"
                     d="M1542 807C1542 855.049 1196.81 894 771 894C345.188 894 0 855.049 0 807C0 758.951 345.188 720 771 720C1196.81 720 1542 758.951 1542 807Z"
                     fill="#1A1A1A" fill-opacity="0.3" />
-                <g 
-                    id="Anim-LeftTom"
-                    className="animated"
-                    // onClick={() => {
-                    //     console.log('animating leftTom')
-                    // }}
-                >
+                <g id="Anim-LeftTom">
                     <rect id="Rectangle 18" x="447" y="172" width="233" height="125" fill="#3595FF" stroke="black"
                         stroke-width="4" />
                     <g id="Bottom Section">
