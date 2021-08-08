@@ -11,6 +11,8 @@ import tink from 'assets/sounds/DrumMachine/tink.wav';
 import tom from 'assets/sounds/DrumMachine/tom.wav';
 import background from 'assets/images/view-from-stage.jpeg';
 
+import DrumKit from 'components/DrumKit';
+
 const DrumMachine = () => {
     const drumSounds = useMemo(() => [
         { name: 'boom', sound: new Audio(boom), key: 'a'},
@@ -99,6 +101,14 @@ const DrumMachine = () => {
                     <span className="drum-key">{key}</span>
                     <span className="drum-name">{name}</span>
                 </button>
+
+
+                
+
+
+
+
+
             );
         }
     )}, [containerWidth, drumSounds, play]);
@@ -110,7 +120,7 @@ const DrumMachine = () => {
             ref={drumContainer}
             style={{ backgroundImage: `url(${background})` }}
         >
-            <div
+            {/* <div
                 style={{
                     position: 'relative',
                     width: containerWidth,
@@ -119,7 +129,9 @@ const DrumMachine = () => {
                 }}
             >
                 {drumButtons}
-            </div>
+            </div> */}
+            {<DrumKit/>}
+
         </div>
     );
 };
