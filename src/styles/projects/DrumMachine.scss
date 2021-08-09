@@ -47,14 +47,14 @@
             transform: scaleX(1) scaleY(1) rotate(0deg);
             transform-origin: 50% 25%;
             &.animating {
-                transform: scaleX(1.1) scaleY(0.9) rotate(-3deg);
+                transform: scaleX(1) scaleY(0.9) rotate(-3deg);
             }
         }
         &#Anim-RightTom {
             transform: scaleX(1) scaleY(1) rotate(0deg);
             transform-origin: 50% 25%;
             &.animating {
-                transform: scaleX(1.1) scaleY(0.9) rotate(3deg);
+                transform: scaleX(1) scaleY(0.9) rotate(3deg);
             }
         }
         &#Anim-FloorTom {
@@ -62,13 +62,6 @@
             transform: scaleX(1) scaleY(1);
             &.animating {
                 transform: scaleX(1.05) scaleY(0.9);
-            }
-        }
-        &#Anim-LeftTom {
-            transform-origin: 50% 25%;
-            transform: scaleX(1) scaleY(1) rotate(0deg);
-            &.animating {
-                transform: scaleX(1.15) scaleY(0.9) rotate(-3deg);
             }
         }
         &#Anim-Hihat {
