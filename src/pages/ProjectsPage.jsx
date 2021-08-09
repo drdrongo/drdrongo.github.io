@@ -1,11 +1,11 @@
 import 'styles/pages/ProjectsPage.scss';
 import React, { useState, useMemo, useCallback } from 'react';
-import DrumMachine from 'projects/DrumMachine';
+import DrumKit from 'projects/DrumKit';
 
 const ProjectsPage = () => {
     const [currentProject, setCurrentProject] = useState(null);
     const projects = useMemo(() => ([
-        { title: 'Drum Machine', Component: DrumMachine }
+        { title: 'Drum Machine', Component: DrumKit }
     ]), []);
 
     const renderCurrentProject = useCallback(() => {

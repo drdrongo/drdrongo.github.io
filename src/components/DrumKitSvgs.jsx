@@ -1,207 +1,150 @@
-import React, { useEffect, useCallback, useMemo } from 'react'
+import React from 'react'
 
-import boom from 'assets/sounds/DrumMachine/boom.wav';
-// import clap from 'assets/sounds/DrumMachine/clap.wav';
-import hihat from 'assets/sounds/DrumMachine/hihat.wav';
-import kick from 'assets/sounds/DrumMachine/kick.wav';
-// import openhat from 'assets/sounds/DrumMachine/openhat.wav';
-import ride from 'assets/sounds/DrumMachine/ride.wav';
-import snare from 'assets/sounds/DrumMachine/snare.wav';
-import tink from 'assets/sounds/DrumMachine/tink.wav';
-import tom from 'assets/sounds/DrumMachine/tom.wav';
-const DrumKit = () => {
-
-    const drums = useMemo(() => ({
-        k: {key: 'k', id: 'Anim-Hihat', audio: new Audio(hihat)},
-        s: {key: 's', id: 'Anim-Ride', audio: new Audio(ride)},
-        g: {key: 'g', id: 'Anim-Bass', audio: new Audio(kick)},
-        j: {key: 'j', id: 'Anim-Snare', audio: new Audio(snare)},
-        d: {key: 'd', id: 'Anim-FloorTom', audio: new Audio(boom)},
-        h: {key: 'h', id: 'Anim-RightTom', audio: new Audio(tink)},
-        f: {key: 'f', id: 'Anim-LeftTom', audio: new Audio(tom)},
-    }), []);
-
-    const play = useCallback(audio => {
-        if (!audio) return;
-
-        audio.pause();
-        audio.currentTime = 0;
-        audio.play();    
-    }, []);
-    const onKeyDown = useCallback(({e, key, drum, audio}) => {
-        if (!e.repeat && drums[e.key] && e.key === key) {
-            drum.classList.add('animating');
-            play(audio);
-        }
-    }, [drums, play])
-    const onKeyUp = useCallback(({e, key, drum}) => {
-        if (drums[e.key] && e.key === key) drum.classList.remove('animating');
-    }, [drums])
-
-    const addAnimations = useCallback(() => {
-        Object.values(drums).forEach(({ id, key, audio }) => {
-            const drum = document.getElementById(id);
-            drum.classList.add('animated');
-            document.addEventListener('keydown', e => onKeyDown({e, key, drum, audio}));
-            document.addEventListener('keyup', e => onKeyUp({e, key, drum}));
-        });
-    }, [drums, onKeyDown, onKeyUp]);
-
-    useEffect(() => {
-        addAnimations();
-        return () => {
-            Object.values(drums).forEach(({ id, key, audio }) => {
-                const drum = document.getElementById(id);
-                document.removeEventListener('keydown', e => onKeyDown({e, key, drum, audio}));
-                document.removeEventListener('keyup', e => onKeyUp({e, key, drum}));
-            });
-        }
-    }, [addAnimations, drums, onKeyDown, onKeyUp]);
-
+const DrumKitSvgs = () => {
     return (
         <svg width="1542" height="894" viewBox="0 0 1542 894" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g id="DrumKit">
                 <path id="Shadow"
                     d="M1542 807C1542 855.049 1196.81 894 771 894C345.188 894 0 855.049 0 807C0 758.951 345.188 720 771 720C1196.81 720 1542 758.951 1542 807Z"
-                    fill="#1A1A1A" fill-opacity="0.3" />
+                    fill="#1A1A1A" fillOpacity="0.3" />
                 <g id="Anim-LeftTom">
                     <rect id="Rectangle 18" x="447" y="172" width="233" height="125" fill="#3595FF" stroke="black"
-                        stroke-width="4" />
+                        strokeWidth="4" />
                     <g id="Bottom Section">
                         <rect id="Rectangle 17" x="441" y="296" width="245" height="13" rx="2" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 23" x="442" y="267" width="10" height="19" rx="5" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 24" x="598" y="267" width="10" height="19" rx="5" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 25" x="520" y="267" width="10" height="19" rx="5" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 26" x="675" y="267" width="10" height="19" rx="5" fill="white" stroke="black"
-                            stroke-width="4" />
-                        <line id="Line 16" x1="525" y1="296" x2="525" y2="285" stroke="black" stroke-width="4" />
-                        <line id="Line 17" x1="603" y1="295" x2="603" y2="286" stroke="black" stroke-width="4" />
+                            strokeWidth="4" />
+                        <line id="Line 16" x1="525" y1="296" x2="525" y2="285" stroke="black" strokeWidth="4" />
+                        <line id="Line 17" x1="603" y1="295" x2="603" y2="286" stroke="black" strokeWidth="4" />
                         <rect id="Rectangle 28" x="443" y="304" width="241" height="3" rx="1.5" fill="#87FFFF"
-                            fill-opacity="0.5" />
+                            fillOpacity="0.5" />
                     </g>
                     <g id="Top Section">
                         <rect id="Rectangle 16" x="441" y="159" width="245" height="13" rx="2" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 19" x="442" y="181" width="10" height="19" rx="5" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 22" x="598" y="181" width="10" height="19" rx="5" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 21" x="520" y="182" width="10" height="19" rx="5" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 20" x="675" y="182" width="10" height="19" rx="5" fill="white" stroke="black"
-                            stroke-width="4" />
-                        <line id="Line 12" x1="525" y1="182" x2="525" y2="172" stroke="black" stroke-width="4" />
-                        <line id="Line 13" x1="603" y1="181" x2="603" y2="172" stroke="black" stroke-width="4" />
+                            strokeWidth="4" />
+                        <line id="Line 12" x1="525" y1="182" x2="525" y2="172" stroke="black" strokeWidth="4" />
+                        <line id="Line 13" x1="603" y1="181" x2="603" y2="172" stroke="black" strokeWidth="4" />
                         <rect id="Rectangle 27" x="443" y="167" width="241" height="3" rx="1.5" fill="#87FFFF"
-                            fill-opacity="0.5" />
+                            fillOpacity="0.5" />
                     </g>
                 </g>
                 <g id="Anim-RightTom">
                     <rect id="Rectangle 18_2" x="837" y="172" width="233" height="125" fill="#3595FF" stroke="black"
-                        stroke-width="4" />
+                        strokeWidth="4" />
                     <g id="Bottom Section_2">
                         <rect id="Rectangle 17_2" x="831" y="296" width="245" height="13" rx="2" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 23_2" x="832" y="267" width="10" height="19" rx="5" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 24_2" x="988" y="267" width="10" height="19" rx="5" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 25_2" x="910" y="267" width="10" height="19" rx="5" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 26_2" x="1065" y="267" width="10" height="19" rx="5" fill="white" stroke="black"
-                            stroke-width="4" />
-                        <line id="Line 16_2" x1="915" y1="296" x2="915" y2="285" stroke="black" stroke-width="4" />
-                        <line id="Line 17_2" x1="993" y1="295" x2="993" y2="286" stroke="black" stroke-width="4" />
+                            strokeWidth="4" />
+                        <line id="Line 16_2" x1="915" y1="296" x2="915" y2="285" stroke="black" strokeWidth="4" />
+                        <line id="Line 17_2" x1="993" y1="295" x2="993" y2="286" stroke="black" strokeWidth="4" />
                         <rect id="Rectangle 28_2" x="833" y="304" width="241" height="3" rx="1.5" fill="#87FFFF"
-                            fill-opacity="0.5" />
+                            fillOpacity="0.5" />
                     </g>
                     <g id="Top Section_2">
                         <rect id="Rectangle 16_2" x="831" y="159" width="245" height="13" rx="2" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 19_2" x="832" y="181" width="10" height="19" rx="5" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 22_2" x="988" y="181" width="10" height="19" rx="5" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 21_2" x="910" y="182" width="10" height="19" rx="5" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 20_2" x="1065" y="182" width="10" height="19" rx="5" fill="white" stroke="black"
-                            stroke-width="4" />
-                        <line id="Line 12_2" x1="915" y1="182" x2="915" y2="172" stroke="black" stroke-width="4" />
-                        <line id="Line 13_2" x1="993" y1="181" x2="993" y2="172" stroke="black" stroke-width="4" />
+                            strokeWidth="4" />
+                        <line id="Line 12_2" x1="915" y1="182" x2="915" y2="172" stroke="black" strokeWidth="4" />
+                        <line id="Line 13_2" x1="993" y1="181" x2="993" y2="172" stroke="black" strokeWidth="4" />
                         <rect id="Rectangle 27_2" x="833" y="167" width="241" height="3" rx="1.5" fill="#87FFFF"
-                            fill-opacity="0.5" />
+                            fillOpacity="0.5" />
                     </g>
                 </g>
                 <g id="FloorTom">
                     <g id="Anim-FloorTom">
                         <rect id="Rectangle 18_3" x="309.169" y="406.39" width="318.663" height="297.558" fill="#3595FF"
-                            stroke="black" stroke-width="4" />
+                            stroke="black" strokeWidth="4" />
                         <g id="Bottom Section_3">
                             <rect id="Rectangle 17_3" x="301" y="696.26" width="335" height="35.7403" rx="2" fill="white"
-                                stroke="black" stroke-width="4" />
+                                stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 23_3" x="303" y="635" width="15" height="41" rx="6" fill="white" stroke="black"
-                                stroke-width="4" />
+                                strokeWidth="4" />
                             <rect id="Rectangle 24_3" x="516" y="635" width="15" height="41" rx="6" fill="white" stroke="black"
-                                stroke-width="4" />
+                                strokeWidth="4" />
                             <rect id="Rectangle 25_3" x="410" y="635" width="15" height="41" rx="6" fill="white" stroke="black"
-                                stroke-width="4" />
+                                strokeWidth="4" />
                             <rect id="Rectangle 26_3" x="621" y="635" width="15" height="41" rx="6" fill="white" stroke="black"
-                                stroke-width="4" />
+                                strokeWidth="4" />
                             <line id="Line 16_3" x1="416.807" y1="697.917" x2="417" y2="676.982" stroke="black"
-                                stroke-width="4" />
-                            <line id="Line 17_3" x1="523" y1="696.597" x2="523" y2="675.558" stroke="black" stroke-width="4" />
+                                strokeWidth="4" />
+                            <line id="Line 17_3" x1="523" y1="696.597" x2="523" y2="675.558" stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 28_3" x="304.446" y="721.636" width="328.108" height="7.01299" rx="3.50649"
-                                fill="#87FFFF" fill-opacity="0.5" />
+                                fill="#87FFFF" fillOpacity="0.5" />
                         </g>
                         <g id="Top Section_3">
                             <rect id="Rectangle 16_3" x="301" y="376" width="335" height="35.7403" rx="2" fill="white"
-                                stroke="black" stroke-width="4" />
+                                stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 19_3" x="302" y="429" width="15" height="40" rx="6" fill="white" stroke="black"
-                                stroke-width="4" />
+                                strokeWidth="4" />
                             <rect id="Rectangle 22_3" x="515" y="429" width="15" height="40" rx="6" fill="white" stroke="black"
-                                stroke-width="4" />
+                                strokeWidth="4" />
                             <rect id="Rectangle 21_3" x="409" y="431" width="15" height="40" rx="6" fill="white" stroke="black"
-                                stroke-width="4" />
+                                strokeWidth="4" />
                             <rect id="Rectangle 20_3" x="620" y="431" width="15" height="40" rx="6" fill="white" stroke="black"
-                                stroke-width="4" />
+                                strokeWidth="4" />
                             <line id="Line 12_3" x1="416.807" y1="432.421" x2="417" y2="413.979" stroke="black"
-                                stroke-width="4" />
-                            <path id="Line 13_3" d="M523 430.104V411.5" stroke="black" stroke-width="4" />
+                                strokeWidth="4" />
+                            <path id="Line 13_3" d="M523 430.104V411.5" stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 27_3" x="304.446" y="402.377" width="328.108" height="7.01299" rx="3.50649"
-                                fill="#87FFFF" fill-opacity="0.5" />
+                                fill="#87FFFF" fillOpacity="0.5" />
                         </g>
                     </g>
                     <g id="Static-FloorTom">
                         <g id="Right Leg">
                             <path id="Ellipse 3"
                                 d="M696 780C696 791.331 688.124 800 679 800C669.876 800 662 791.331 662 780C662 768.669 669.876 760 679 760C688.124 760 696 768.669 696 780Z"
-                                fill="#878787" stroke="black" stroke-width="4" />
+                                fill="#878787" stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 33" x="629.372" y="582.867" width="12" height="184"
-                                transform="rotate(-12 629.372 582.867)" fill="white" stroke="black" stroke-width="4" />
+                                transform="rotate(-12 629.372 582.867)" fill="white" stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 34" x="614" y="522" width="28" height="66" rx="14" fill="white" stroke="black"
-                                stroke-width="4" />
+                                strokeWidth="4" />
                         </g>
                         <g id="Left Leg">
                             <path id="Ellipse 2"
                                 d="M278 782C278 793.331 270.124 802 261 802C251.876 802 244 793.331 244 782C244 770.669 251.876 762 261 762C270.124 762 278 770.669 278 782Z"
-                                fill="#414141" stroke="black" stroke-width="4" />
+                                fill="#414141" stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 31" x="297.259" y="582.763" width="12" height="184"
-                                transform="rotate(12 297.259 582.763)" fill="white" stroke="black" stroke-width="4" />
+                                transform="rotate(12 297.259 582.763)" fill="white" stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 32" x="293" y="522" width="28" height="66" rx="14" fill="white" stroke="black"
-                                stroke-width="4" />
+                                strokeWidth="4" />
                         </g>
                         <g id="Center Leg">
                             <path id="Ellipse 1"
                                 d="M486 782C486 793.331 478.124 802 469 802C459.876 802 452 793.331 452 782C452 770.669 459.876 762 469 762C478.124 762 486 770.669 486 782Z"
-                                fill="#414141" stroke="black" stroke-width="4" />
+                                fill="#414141" stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 30" x="463" y="580" width="12" height="184" fill="white" stroke="black"
-                                stroke-width="4" />
+                                strokeWidth="4" />
                             <rect id="Rectangle 29" x="455" y="522" width="28" height="66" rx="14" fill="white" stroke="black"
-                                stroke-width="4" />
+                                strokeWidth="4" />
                         </g>
                     </g>
                 </g>
@@ -209,115 +152,115 @@ const DrumKit = () => {
                     <g id="Static-Snare">
                         <rect id="Rectangle 47" x="0.7691" y="2.8951" width="10.8198" height="115.447"
                             transform="matrix(-0.448216 0.893925 0.832766 0.553625 1003.55 517.909)" fill="white" stroke="black"
-                            stroke-width="4" />
+                            strokeWidth="4" />
                         <rect id="Rectangle 48" x="-2.56196" y="-0.680601" width="10.8198" height="115.447"
                             transform="matrix(-0.448216 -0.893925 -0.832766 0.553625 1209.46 527.958)" fill="white"
-                            stroke="black" stroke-width="4" />
+                            stroke="black" strokeWidth="4" />
                         <g id="Left Foot">
                             <path id="Rectangle 45"
                                 d="M1012.19 798.636C1012.19 788.695 1020.25 780.636 1030.19 780.636H1050.19C1051.3 780.636 1052.19 781.532 1052.19 782.636V806C1052.19 807.105 1051.29 808 1050.19 808H1014.19C1013.09 808 1012.19 807.105 1012.19 806V798.636Z"
-                                fill="#414141" stroke="black" stroke-width="4" />
+                                fill="#414141" stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 33_2" x="-0.7691" y="2.8951" width="13.7055" height="61.7605"
                                 transform="matrix(0.448216 0.893925 -0.832766 0.553625 1100.46 745.633)" fill="white"
-                                stroke="black" stroke-width="4" />
+                                stroke="black" strokeWidth="4" />
                         </g>
                         <g id="Right Foot">
                             <path id="Rectangle 45_2"
                                 d="M1197.65 798.636C1197.65 788.695 1189.59 780.636 1179.65 780.636H1159.65C1158.55 780.636 1157.65 781.532 1157.65 782.636V806C1157.65 807.105 1158.55 808 1159.65 808H1195.65C1196.76 808 1197.65 807.105 1197.65 806V798.636Z"
-                                fill="#414141" stroke="black" stroke-width="4" />
+                                fill="#414141" stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 33_3" x="0.7691" y="2.8951" width="13.7055" height="61.7605"
                                 transform="matrix(-0.448216 0.893925 0.832766 0.553625 1110.07 744.258)" fill="white"
-                                stroke="black" stroke-width="4" />
+                                stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 29_2" width="101.419" height="1.35424" rx="0.677122"
                                 transform="matrix(0.832766 -0.553625 0.448216 0.893925 1117.05 587.492)" fill="#87FFFF"
-                                fill-opacity="0.5" />
+                                fillOpacity="0.5" />
                         </g>
                         <g id="Bottom Joint">
                             <path id="Ellipse 10"
                                 d="M1111.9 753.304C1111.9 758.469 1108.32 762.16 1104.48 762.16C1100.63 762.16 1097.05 758.469 1097.05 753.304C1097.05 748.138 1100.63 744.447 1104.48 744.447C1108.32 744.447 1111.9 748.138 1111.9 753.304Z"
-                                fill="white" stroke="black" stroke-width="4" />
+                                fill="white" stroke="black" strokeWidth="4" />
                             <ellipse id="Ellipse 11" cx="1104.48" cy="753.304" rx="1.04762" ry="1.2063" fill="black" />
                         </g>
                         <g id="Top Part">
                             <path id="Rectangle 41"
                                 d="M964 496.615C964 494.248 965.919 492.33 968.286 492.33C970.653 492.33 972.571 494.248 972.571 496.615V517.281H964V496.615Z"
-                                fill="#AFAFAF" stroke="black" stroke-width="4" />
+                                fill="#AFAFAF" stroke="black" strokeWidth="4" />
                             <path id="Rectangle 42"
                                 d="M1237.43 496.615C1237.43 494.248 1239.35 492.33 1241.71 492.33C1244.08 492.33 1246 494.248 1246 496.615V517.281H1237.43V496.615Z"
-                                fill="#AFAFAF" stroke="black" stroke-width="4" />
+                                fill="#AFAFAF" stroke="black" strokeWidth="4" />
                             <path id="Rectangle 43"
                                 d="M964 517.662H1246V522.138C1246 525.451 1243.31 528.138 1240 528.138H970C966.686 528.138 964 525.451 964 522.138V517.662Z"
-                                fill="white" stroke="black" stroke-width="4" />
+                                fill="white" stroke="black" strokeWidth="4" />
                             <rect id="Stem" x="1100.19" y="532.138" width="9.61905" height="214.341" fill="white" stroke="black"
-                                stroke-width="4" />
+                                strokeWidth="4" />
                             <rect id="Rectangle 46" x="1093.9" y="585.215" width="22.1905" height="16.5072" rx="6" fill="white"
-                                stroke="black" stroke-width="4" />
+                                stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 30_2" width="101.419" height="1.35424" rx="0.677122"
                                 transform="matrix(-0.832766 -0.553625 -0.448216 0.893925 1093.16 586.285)" fill="#87FFFF"
-                                fill-opacity="0.5" />
+                                fillOpacity="0.5" />
                             <rect id="Rectangle 47_2" width="51.1549" height="1.73584" rx="0.867919"
                                 transform="matrix(-0.832766 -0.553625 -0.448216 0.893925 1156.19 786.191)" fill="#87FFFF"
-                                fill-opacity="0.5" />
+                                fillOpacity="0.5" />
                             <rect id="Rectangle 48_2" width="51.1549" height="1.92132" rx="0.960661"
                                 transform="matrix(0.832766 -0.553625 0.448216 0.893925 1053.64 786.549)" fill="#87FFFF"
-                                fill-opacity="0.5" />
+                                fillOpacity="0.5" />
                             <g id="Top Joint">
                                 <path id="Ellipse 8"
                                     d="M1111.9 525.312C1111.9 530.478 1108.32 534.169 1104.48 534.169C1100.63 534.169 1097.05 530.478 1097.05 525.312C1097.05 520.147 1100.63 516.456 1104.48 516.456C1108.32 516.456 1111.9 520.147 1111.9 525.312Z"
-                                    fill="white" stroke="black" stroke-width="4" />
+                                    fill="white" stroke="black" strokeWidth="4" />
                                 <ellipse id="Ellipse 9" cx="1104.48" cy="525.312" rx="1.04762" ry="1.2063" fill="black" />
                             </g>
                         </g>
                     </g>
                     <g id="Anim-Snare">
                         <rect id="Rectangle 18_4" x="982.857" y="406.682" width="244.286" height="90.0917" fill="#3595FF"
-                            stroke="black" stroke-width="4" />
+                            stroke="black" strokeWidth="4" />
                         <g id="Bottom Section_4">
                             <rect id="Rectangle 17_4" x="976.571" y="495.948" width="256.857" height="16.5072" rx="2"
-                                fill="white" stroke="black" stroke-width="4" />
+                                fill="white" stroke="black" strokeWidth="4" />
                             <line id="Line 16_4" x1="1064.76" y1="496.361" x2="1064.76" y2="472.235" stroke="black"
-                                stroke-width="4" />
+                                strokeWidth="4" />
                             <line id="Line 17_4" x1="1146.48" y1="493.948" x2="1146.48" y2="472.235" stroke="black"
-                                stroke-width="4" />
+                                strokeWidth="4" />
                             <rect id="Rectangle 29_3" x="978.762" y="506.011" width="252.476" height="3.61891" rx="1.80946"
-                                fill="#87FFFF" fill-opacity="0.5" />
+                                fill="#87FFFF" fillOpacity="0.5" />
                         </g>
                         <g id="Top Section_4">
                             <rect id="Rectangle 16_4" x="976.571" y="391" width="256.857" height="16.5072" rx="2" fill="white"
-                                stroke="black" stroke-width="4" />
+                                stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 19_4" x="977.619" y="429.602" width="10.6667" height="43.0458" rx="5.33333"
-                                fill="white" stroke="black" stroke-width="4" />
+                                fill="white" stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 22_4" x="1141.05" y="429.602" width="10.6667" height="43.0458" rx="5.33333"
-                                fill="white" stroke="black" stroke-width="4" />
+                                fill="white" stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 21_4" x="1059.33" y="432.014" width="10.6667" height="41.8395" rx="5.33333"
-                                fill="white" stroke="black" stroke-width="4" />
+                                fill="white" stroke="black" strokeWidth="4" />
                             <rect id="Rectangle 20_4" x="1221.71" y="432.014" width="10.6667" height="41.8395" rx="5.33333"
-                                fill="white" stroke="black" stroke-width="4" />
-                            <path id="Line 12_4" d="M1064.67 433.03V407.095" stroke="black" stroke-width="4" />
+                                fill="white" stroke="black" strokeWidth="4" />
+                            <path id="Line 12_4" d="M1064.67 433.03V407.095" stroke="black" strokeWidth="4" />
                             <line id="Line 13_4" x1="1146.48" y1="430.014" x2="1146.48" y2="407.095" stroke="black"
-                                stroke-width="4" />
+                                strokeWidth="4" />
                             <rect id="Rectangle 27_4" x="978.762" y="401.063" width="252.476" height="3.61891" rx="1.80946"
-                                fill="#87FFFF" fill-opacity="0.5" />
+                                fill="#87FFFF" fillOpacity="0.5" />
                         </g>
                     </g>
                 </g>
                 <g id="Tom-Holders">
                     <rect id="Rectangle 59" x="696.587" y="315" width="132" height="28" rx="14" fill="white" stroke="black"
-                        stroke-width="6" />
+                        strokeWidth="6" />
                     <rect id="Rectangle 60" x="717.587" y="246" width="18" height="68" fill="white" stroke="black"
-                        stroke-width="6" />
+                        strokeWidth="6" />
                     <rect id="Rectangle 61" x="788.587" y="246" width="18" height="68" fill="white" stroke="black"
-                        stroke-width="6" />
+                        strokeWidth="6" />
                     <rect id="Rectangle 64" x="626.587" y="210" width="31" height="48" rx="15.5" fill="white" stroke="black"
-                        stroke-width="6" />
+                        strokeWidth="6" />
                     <rect id="Rectangle 65" x="862.587" y="210" width="31" height="48" rx="15.5" fill="white" stroke="black"
-                        stroke-width="6" />
+                        strokeWidth="6" />
                     <rect id="Rectangle 62" x="653" y="225" width="82" height="18" rx="9" fill="white" stroke="black"
-                        stroke-width="6" />
+                        strokeWidth="6" />
                     <rect id="Rectangle 63" x="799" y="225" width="82" height="18" rx="9" fill="white" stroke="black"
-                        stroke-width="6" />
-                    <circle id="Ellipse 13" cx="726.587" cy="234" r="16" fill="white" stroke="black" stroke-width="6" />
-                    <circle id="Ellipse 14" cx="797.587" cy="234" r="16" fill="white" stroke="black" stroke-width="6" />
+                        strokeWidth="6" />
+                    <circle id="Ellipse 13" cx="726.587" cy="234" r="16" fill="white" stroke="black" strokeWidth="6" />
+                    <circle id="Ellipse 14" cx="797.587" cy="234" r="16" fill="white" stroke="black" strokeWidth="6" />
                     <circle id="Ellipse 15" cx="726.587" cy="234" r="4" fill="black" />
                     <circle id="Ellipse 16" cx="797.587" cy="234" r="4" fill="black" />
                 </g>
@@ -326,28 +269,28 @@ const DrumKit = () => {
                         <g id="Bass Right Leg">
                             <path id="Ellipse 4"
                                 d="M1039.59 799C1039.59 809.921 1032.03 818 1023.59 818C1015.15 818 1007.59 809.921 1007.59 799C1007.59 788.079 1015.15 780 1023.59 780C1032.03 780 1039.59 788.079 1039.59 799Z"
-                                fill="#414141" stroke="black" stroke-width="6" />
+                                fill="#414141" stroke="black" strokeWidth="6" />
                             <rect id="Rectangle 35" x="997.471" y="599.63" width="10" height="182"
-                                transform="rotate(-6 997.471 599.63)" fill="white" stroke="black" stroke-width="6" />
+                                transform="rotate(-6 997.471 599.63)" fill="white" stroke="black" strokeWidth="6" />
                             <rect id="Rectangle 39" x="987.587" y="530" width="26" height="76" rx="5" fill="white"
-                                stroke="black" stroke-width="6" />
+                                stroke="black" strokeWidth="6" />
                         </g>
                         <g id="Bass Left Leg">
                             <path id="Ellipse 5"
                                 d="M514 799C514 809.921 506.439 818 498 818C489.561 818 482 809.921 482 799C482 788.079 489.561 780 498 780C506.439 780 514 788.079 514 799Z"
-                                fill="#414141" stroke="black" stroke-width="6" />
+                                fill="#414141" stroke="black" strokeWidth="6" />
                             <rect id="Rectangle 40" x="513.908" y="598.585" width="10" height="182"
-                                transform="rotate(6 513.908 598.585)" fill="white" stroke="black" stroke-width="6" />
+                                transform="rotate(6 513.908 598.585)" fill="white" stroke="black" strokeWidth="6" />
                             <rect id="Rectangle 38" x="500.587" y="530" width="26" height="76" rx="5" fill="white"
-                                stroke="black" stroke-width="6" />
+                                stroke="black" strokeWidth="6" />
                         </g>
                     </g>
                     <g id="Anim-Bass">
                         <g id="Bass Body">
                             <circle id="Ellipse 5_2" cx="757.587" cy="566" r="237" fill="#3595FF" stroke="black"
-                                stroke-width="6" />
+                                strokeWidth="6" />
                             <circle id="Ellipse 4_2" cx="757.587" cy="566" r="217" fill="white" stroke="black"
-                                stroke-width="6" />
+                                strokeWidth="6" />
                             <g id="Floor Tom Clip">
                                 <g id="Rectangle 35_2">
                                     <mask id="path-113-inside-1" fill="white">
@@ -355,16 +298,16 @@ const DrumKit = () => {
                                             transform="rotate(90 997.587 535)" />
                                     </mask>
                                     <rect x="997.587" y="535" width="61" height="26" rx="4" transform="rotate(90 997.587 535)"
-                                        fill="white" stroke="black" stroke-width="12" mask="url(#path-113-inside-1)" />
+                                        fill="white" stroke="black" strokeWidth="12" mask="url(#path-113-inside-1)" />
                                 </g>
                                 <circle id="Ellipse 6" cx="993.587" cy="565" r="13" transform="rotate(90 993.587 565)"
-                                    fill="white" stroke="black" stroke-width="6" />
+                                    fill="white" stroke="black" strokeWidth="6" />
                                 <rect id="Rectangle 36" x="991.587" y="541" width="50" height="14"
                                     transform="rotate(90 991.587 541)" fill="white" />
                                 <circle id="Ellipse 7" cx="994.587" cy="565" r="3" transform="rotate(90 994.587 565)"
                                     fill="black" />
                                 <rect id="Rectangle 37" x="982.587" y="541" width="50" height="5"
-                                    transform="rotate(90 982.587 541)" fill="#87FFFF" fill-opacity="0.5" />
+                                    transform="rotate(90 982.587 541)" fill="#87FFFF" fillOpacity="0.5" />
                             </g>
                             <g id="Floor Tom Clip_2">
                                 <g id="Rectangle 35_3">
@@ -372,15 +315,15 @@ const DrumKit = () => {
                                         <rect width="61" height="26" rx="4" transform="matrix(0 1 1 0 516.587 535)" />
                                     </mask>
                                     <rect width="61" height="26" rx="4" transform="matrix(0 1 1 0 516.587 535)" fill="white"
-                                        stroke="black" stroke-width="12" mask="url(#path-118-inside-2)" />
+                                        stroke="black" strokeWidth="12" mask="url(#path-118-inside-2)" />
                                 </g>
                                 <circle id="Ellipse 6_2" r="13" transform="matrix(0 1 1 0 520.587 565)" fill="white"
-                                    stroke="black" stroke-width="6" />
+                                    stroke="black" strokeWidth="6" />
                                 <rect id="Rectangle 36_2" width="50" height="14" transform="matrix(0 1 1 0 522.587 541)"
                                     fill="white" />
                                 <circle id="Ellipse 7_2" r="3" transform="matrix(0 1 1 0 519.587 565)" fill="black" />
                                 <rect id="Rectangle 37_2" width="50" height="5" transform="matrix(0 1 1 0 531.587 541)"
-                                    fill="#87FFFF" fill-opacity="0.5" />
+                                    fill="#87FFFF" fillOpacity="0.5" />
                             </g>
                             <g id="Floor Tom Clip_3">
                                 <g id="Rectangle 35_4">
@@ -389,17 +332,17 @@ const DrumKit = () => {
                                             transform="rotate(30 849.587 343.392)" />
                                     </mask>
                                     <rect x="849.587" y="343.392" width="61" height="26" rx="4"
-                                        transform="rotate(30 849.587 343.392)" fill="white" stroke="black" stroke-width="12"
+                                        transform="rotate(30 849.587 343.392)" fill="white" stroke="black" strokeWidth="12"
                                         mask="url(#path-123-inside-3)" />
                                 </g>
                                 <circle id="Ellipse 6_3" cx="873.568" cy="361.856" r="13" transform="rotate(30 873.568 361.856)"
-                                    fill="white" stroke="black" stroke-width="6" />
+                                    fill="white" stroke="black" strokeWidth="6" />
                                 <rect id="Rectangle 36_3" x="851.783" y="351.588" width="50" height="14"
                                     transform="rotate(30 851.783 351.588)" fill="white" />
                                 <circle id="Ellipse 7_3" cx="874.068" cy="360.99" r="3" transform="rotate(30 874.068 360.99)"
                                     fill="black" />
                                 <rect id="Rectangle 37_3" x="847.283" y="359.383" width="50" height="5"
-                                    transform="rotate(30 847.283 359.383)" fill="#87FFFF" fill-opacity="0.5" />
+                                    transform="rotate(30 847.283 359.383)" fill="#87FFFF" fillOpacity="0.5" />
                             </g>
                             <g id="Floor Tom Clip_4">
                                 <g id="Rectangle 35_5">
@@ -408,17 +351,17 @@ const DrumKit = () => {
                                             transform="rotate(-30 612.587 372.892)" />
                                     </mask>
                                     <rect x="612.587" y="372.892" width="61" height="26" rx="4"
-                                        transform="rotate(-30 612.587 372.892)" fill="white" stroke="black" stroke-width="12"
+                                        transform="rotate(-30 612.587 372.892)" fill="white" stroke="black" strokeWidth="12"
                                         mask="url(#path-128-inside-4)" />
                                 </g>
                                 <circle id="Ellipse 6_4" cx="640.568" cy="361.356" r="13"
-                                    transform="rotate(-30 640.568 361.356)" fill="white" stroke="black" stroke-width="6" />
+                                    transform="rotate(-30 640.568 361.356)" fill="white" stroke="black" strokeWidth="6" />
                                 <rect id="Rectangle 36_4" x="620.783" y="375.088" width="50" height="14"
                                     transform="rotate(-30 620.783 375.088)" fill="white" />
                                 <circle id="Ellipse 7_4" cx="640.068" cy="360.49" r="3" transform="rotate(-30 640.068 360.49)"
                                     fill="black" />
                                 <rect id="Rectangle 37_4" x="625.283" y="382.883" width="50" height="5"
-                                    transform="rotate(-30 625.283 382.883)" fill="#87FFFF" fill-opacity="0.5" />
+                                    transform="rotate(-30 625.283 382.883)" fill="#87FFFF" fillOpacity="0.5" />
                             </g>
                             <g id="Floor Tom Clip_5">
                                 <g id="Rectangle 35_6">
@@ -427,17 +370,17 @@ const DrumKit = () => {
                                             transform="rotate(150 907.415 755.517)" />
                                     </mask>
                                     <rect x="907.415" y="755.517" width="61" height="26" rx="4"
-                                        transform="rotate(150 907.415 755.517)" fill="white" stroke="black" stroke-width="12"
+                                        transform="rotate(150 907.415 755.517)" fill="white" stroke="black" strokeWidth="12"
                                         mask="url(#path-133-inside-5)" />
                                 </g>
                                 <circle id="Ellipse 6_5" cx="879.434" cy="767.053" r="13"
-                                    transform="rotate(150 879.434 767.053)" fill="white" stroke="black" stroke-width="6" />
+                                    transform="rotate(150 879.434 767.053)" fill="white" stroke="black" strokeWidth="6" />
                                 <rect id="Rectangle 36_5" x="899.218" y="753.32" width="50" height="14"
                                     transform="rotate(150 899.218 753.32)" fill="white" />
                                 <circle id="Ellipse 7_5" cx="879.934" cy="767.919" r="3" transform="rotate(150 879.934 767.919)"
                                     fill="black" />
                                 <rect id="Rectangle 37_5" x="894.718" y="745.526" width="50" height="5"
-                                    transform="rotate(150 894.718 745.526)" fill="#87FFFF" fill-opacity="0.5" />
+                                    transform="rotate(150 894.718 745.526)" fill="#87FFFF" fillOpacity="0.5" />
                             </g>
                             <g id="Floor Tom Clip_6">
                                 <g id="Rectangle 35_7">
@@ -446,17 +389,17 @@ const DrumKit = () => {
                                             transform="rotate(-150 662.415 789.017)" />
                                     </mask>
                                     <rect x="662.415" y="789.017" width="61" height="26" rx="4"
-                                        transform="rotate(-150 662.415 789.017)" fill="white" stroke="black" stroke-width="12"
+                                        transform="rotate(-150 662.415 789.017)" fill="white" stroke="black" strokeWidth="12"
                                         mask="url(#path-138-inside-6)" />
                                 </g>
                                 <circle id="Ellipse 6_6" cx="638.434" cy="770.553" r="13"
-                                    transform="rotate(-150 638.434 770.553)" fill="white" stroke="black" stroke-width="6" />
+                                    transform="rotate(-150 638.434 770.553)" fill="white" stroke="black" strokeWidth="6" />
                                 <rect id="Rectangle 36_6" x="660.218" y="780.82" width="50" height="14"
                                     transform="rotate(-150 660.218 780.82)" fill="white" />
                                 <circle id="Ellipse 7_6" cx="637.934" cy="771.419" r="3"
                                     transform="rotate(-150 637.934 771.419)" fill="black" />
                                 <rect id="Rectangle 37_6" x="664.718" y="773.026" width="50" height="5"
-                                    transform="rotate(-150 664.718 773.026)" fill="#87FFFF" fill-opacity="0.5" />
+                                    transform="rotate(-150 664.718 773.026)" fill="#87FFFF" fillOpacity="0.5" />
                             </g>
                             <g id="Pearl">
                                 <path
@@ -471,39 +414,39 @@ const DrumKit = () => {
                     <g id="Static-Ride">
                         <g id="Stem_2">
                             <rect id="Rectangle 49" x="271.115" y="270.758" width="10.8275" height="459.454" rx="5.41374"
-                                fill="white" stroke="black" stroke-width="6" />
+                                fill="white" stroke="black" strokeWidth="6" />
                             <rect id="Rectangle 67" x="283.927" y="453.548" width="21.1987" height="13.7368" rx="6.8684"
-                                fill="white" stroke="black" stroke-width="6" />
+                                fill="white" stroke="black" strokeWidth="6" />
                             <rect id="Rectangle 66" x="263.528" y="445.436" width="30.2649" height="29.183" rx="14.5915"
-                                fill="white" stroke="black" stroke-width="6" />
+                                fill="white" stroke="black" strokeWidth="6" />
                             <rect id="Rectangle 68" x="1.1604" y="2.76387" width="11.1642" height="244.518" rx="5.58208"
                                 transform="matrix(0.900598 0.434652 -0.320397 0.947283 346.915 44.3113)" fill="white"
-                                stroke="black" stroke-width="4" />
+                                stroke="black" strokeWidth="4" />
                             <path id="Ellipse 12"
                                 d="M287.993 274.799C287.993 282.999 282.484 289.022 276.394 289.022C270.304 289.022 264.795 282.999 264.795 274.799C264.795 266.599 270.304 260.576 276.394 260.576C282.484 260.576 287.993 266.599 287.993 274.799Z"
-                                fill="white" stroke="black" stroke-width="4" />
+                                fill="white" stroke="black" strokeWidth="4" />
                         </g>
                         <g id="Bottom">
                             <g id="Left Foot_2">
                                 <path id="Rectangle 45_3"
                                     d="M156 791.461C156 781.52 164.059 773.461 174 773.461H208.245C209.35 773.461 210.245 774.356 210.245 775.461V814.267C210.245 815.372 209.35 816.267 208.245 816.267H158C156.895 816.267 156 815.372 156 814.267V791.461Z"
-                                    fill="#414141" stroke="black" stroke-width="4" />
+                                    fill="#414141" stroke="black" strokeWidth="4" />
                                 <rect id="Rectangle 33_4" x="-0.787791" y="3.02833" width="21.8518" height="86.5983"
                                     transform="matrix(0.405913 0.913911 -0.799809 0.600255 272.825 721.184)" fill="white"
-                                    stroke="black" stroke-width="4" />
+                                    stroke="black" strokeWidth="4" />
                             </g>
                             <g id="Right Foot_2">
                                 <path id="Rectangle 45_4"
                                     d="M402.8 791.461C402.8 781.52 394.741 773.461 384.8 773.461H350.555C349.45 773.461 348.555 774.356 348.555 775.461V814.267C348.555 815.372 349.45 816.267 350.555 816.267H400.8C401.905 816.267 402.8 815.372 402.8 814.267V791.461Z"
-                                    fill="#414141" stroke="black" stroke-width="4" />
+                                    fill="#414141" stroke="black" strokeWidth="4" />
                                 <rect id="Rectangle 33_5" x="0.787791" y="3.02833" width="21.8518" height="86.5983"
                                     transform="matrix(-0.405913 0.913911 0.799809 0.600255 286.615 719.744)" fill="white"
-                                    stroke="black" stroke-width="4" />
+                                    stroke="black" strokeWidth="4" />
                             </g>
                             <g id="Bottom Joint_2">
                                 <path id="Ellipse 10_2"
                                     d="M289.292 733.656C289.292 742.016 284.146 747.858 278.811 747.858C273.477 747.858 268.33 742.016 268.33 733.656C268.33 725.296 273.477 719.454 278.811 719.454C284.146 719.454 289.292 725.296 289.292 733.656Z"
-                                    fill="white" stroke="black" stroke-width="4" />
+                                    fill="white" stroke="black" strokeWidth="4" />
                                 <ellipse id="Ellipse 11_2" cx="278.811" cy="733.656" rx="1.38679" ry="1.80024" fill="black" />
                             </g>
                         </g>
@@ -511,80 +454,80 @@ const DrumKit = () => {
                     <g id="Anim-Ride">
                         <rect id="Rectangle 52" x="1.16008" y="2.76265" width="86.2072" height="25.5262" rx="12.7631"
                             transform="matrix(0.900829 0.434173 -0.320788 0.947151 298.742 62.4069)" fill="#D7D70A"
-                            stroke="black" stroke-width="4" />
+                            stroke="black" strokeWidth="4" />
                         <path id="Rectangle 51"
                             d="M171.184 41.5246C170.554 43.3859 171.478 45.5865 173.248 46.4398L486.867 197.595C488.638 198.448 490.584 197.631 491.214 195.77C494.799 185.186 489.544 172.673 479.478 167.821L195.901 31.1453C185.835 26.2936 174.769 30.9406 171.184 41.5246Z"
-                            fill="#D7D70A" stroke="black" stroke-width="4" />
+                            fill="#D7D70A" stroke="black" strokeWidth="4" />
                         <rect id="Rectangle 54" width="28.8672" height="7.38177"
                             transform="matrix(0.900829 0.434173 -0.320788 0.947151 329.76 70.6605)" fill="black" />
                         <rect id="Rectangle 59_2" width="28.8672" height="7.38177"
                             transform="matrix(0.900829 0.434173 -0.320788 0.947151 315.027 115.274)" fill="black" />
                         <rect id="Rectangle 58" width="67.8358" height="1.84539" rx="0.922695"
                             transform="matrix(0.900829 0.434173 -0.320788 0.947151 302.286 76.1378)" fill="#B99100"
-                            fill-opacity="0.5" />
+                            fillOpacity="0.5" />
                         <rect id="Rectangle 57" width="251.137" height="1.84539" rx="0.922695"
                             transform="matrix(0.900829 0.434173 -0.320788 0.947151 216.579 61.261)" fill="#B99100"
-                            fill-opacity="0.5" />
+                            fillOpacity="0.5" />
                     </g>
                 </g>
                 <g id="Hihat">
                     <g id="Static-Hihat">
                         <g id="Stem_3">
                             <rect id="Rectangle 49_2" x="1262.69" y="204" width="8.84848" height="548.085" rx="4.42424"
-                                fill="white" stroke="black" stroke-width="6" />
+                                fill="white" stroke="black" strokeWidth="6" />
                             <rect id="Rectangle 67_2" x="1272" y="494.113" width="18" height="17.495" rx="8.74752" fill="white"
-                                stroke="black" stroke-width="6" />
+                                stroke="black" strokeWidth="6" />
                             <rect id="Rectangle 66_2" x="1254" y="483.897" width="26" height="35.8825" rx="13" fill="white"
-                                stroke="black" stroke-width="6" />
+                                stroke="black" strokeWidth="6" />
                             <path id="Ellipse 12_2"
                                 d="M1274.8 283.608C1274.8 287.339 1273.78 290.627 1272.24 292.924C1270.69 295.234 1268.76 296.359 1266.9 296.359C1265.04 296.359 1263.11 295.234 1261.56 292.924C1260.02 290.627 1259 287.339 1259 283.608C1259 279.877 1260.02 276.589 1261.56 274.292C1263.11 271.982 1265.04 270.857 1266.9 270.857C1268.76 270.857 1270.69 271.982 1272.24 274.292C1273.78 276.589 1274.8 279.877 1274.8 283.608Z"
-                                fill="white" stroke="black" stroke-width="4" />
+                                fill="white" stroke="black" strokeWidth="4" />
                         </g>
                         <g id="Bottom_2">
                             <g id="Left Foot_3">
                                 <path id="Rectangle 45_5"
                                     d="M1161 803.378C1161 793.437 1169.06 785.378 1179 785.378H1206.4C1207.5 785.378 1208.4 786.273 1208.4 787.378V814C1208.4 815.105 1207.5 816 1206.4 816H1163C1161.9 816 1161 815.105 1161 814V803.378Z"
-                                    fill="#414141" stroke="black" stroke-width="4" />
+                                    fill="#414141" stroke="black" strokeWidth="4" />
                                 <rect id="Rectangle 33_6" x="-0.756148" y="2.83072" width="15.7785" height="71.5446"
                                     transform="matrix(0.468677 0.88337 -0.846751 0.53199 1264.12 746.753)" fill="white"
-                                    stroke="black" stroke-width="4" />
+                                    stroke="black" strokeWidth="4" />
                             </g>
                             <g id="Right Foot_3">
                                 <path id="Rectangle 45_6"
                                     d="M1378.3 803.378C1378.3 793.437 1370.25 785.378 1360.3 785.378H1332.91C1331.81 785.378 1330.91 786.273 1330.91 787.378V814C1330.91 815.105 1331.81 816 1332.91 816H1376.3C1377.41 816 1378.3 815.105 1378.3 814V803.378Z"
-                                    fill="#414141" stroke="black" stroke-width="4" />
+                                    fill="#414141" stroke="black" strokeWidth="4" />
                                 <rect id="Rectangle 33_7" x="0.756148" y="2.83072" width="15.7785" height="71.5446"
                                     transform="matrix(-0.468677 0.88337 0.846751 0.53199 1275.89 745.417)" fill="white"
-                                    stroke="black" stroke-width="4" />
+                                    stroke="black" strokeWidth="4" />
                             </g>
                             <g id="Bottom Joint_3">
                                 <path id="Ellipse 10_3"
                                     d="M1278.15 755.413C1278.15 761.09 1273.96 765.398 1269.13 765.398C1264.31 765.398 1260.12 761.09 1260.12 755.413C1260.12 749.737 1264.31 745.429 1269.13 745.429C1273.96 745.429 1278.15 749.737 1278.15 755.413Z"
-                                    fill="white" stroke="black" stroke-width="4" />
+                                    fill="white" stroke="black" strokeWidth="4" />
                                 <ellipse id="Ellipse 11_3" cx="1269.13" cy="755.413" rx="1.2237" ry="1.33163" fill="black" />
                             </g>
                         </g>
                     </g>
                     <g id="Anim-Hihat">
                         <rect id="Rectangle 53" x="1229.52" y="325.697" width="73.3359" height="20.4023" rx="10.2012"
-                            fill="#D7D70A" stroke="black" stroke-width="4" />
+                            fill="#D7D70A" stroke="black" strokeWidth="4" />
                         <path id="Rectangle 50"
                             d="M1146 324.394C1146 323.188 1146.98 322.211 1148.18 322.211H1384.82C1386.02 322.211 1387 323.188 1387 324.394C1387 332.531 1380.4 339.127 1372.27 339.127H1160.73C1152.6 339.127 1146 332.531 1146 324.394Z"
-                            fill="#D7D70A" stroke="black" stroke-width="4" />
+                            fill="#D7D70A" stroke="black" strokeWidth="4" />
                         <rect id="Rectangle 52_2" x="1230.14" y="291.534" width="73.3359" height="18.3107" rx="9.15536"
-                            fill="#D7D70A" stroke="black" stroke-width="4" />
+                            fill="#D7D70A" stroke="black" strokeWidth="4" />
                         <path id="Rectangle 51_2"
                             d="M1146 315.33C1146 316.536 1146.98 317.514 1148.18 317.514H1384.82C1386.02 317.514 1387 316.536 1387 315.33C1387 307.194 1380.4 300.597 1372.27 300.597H1160.73C1152.6 300.597 1146 307.194 1146 315.33Z"
-                            fill="#D7D70A" stroke="black" stroke-width="4" />
+                            fill="#D7D70A" stroke="black" strokeWidth="4" />
                         <rect id="Rectangle 54_2" x="1254.74" y="284.653" width="24.7475" height="5.57768" fill="black" />
                         <rect id="Rectangle 55" x="1235.57" y="343.219" width="58.1566" height="1.39442" rx="0.69721"
-                            fill="#B99100" fill-opacity="0.5" />
+                            fill="#B99100" fillOpacity="0.5" />
                         <rect id="Rectangle 58_2" x="1235.57" y="297.203" width="58.1566" height="1.39442" rx="0.69721"
-                            fill="#B99100" fill-opacity="0.5" />
+                            fill="#B99100" fillOpacity="0.5" />
                         <rect id="Rectangle 56" x="1161.32" y="336.247" width="215.303" height="1.39442" rx="0.69721"
-                            fill="#B99100" fill-opacity="0.5" />
+                            fill="#B99100" fillOpacity="0.5" />
                         <rect id="Rectangle 57_2" x="1161.32" y="315.33" width="215.303" height="1.39442" rx="0.69721"
-                            fill="#B99100" fill-opacity="0.5" />
+                            fill="#B99100" fillOpacity="0.5" />
                     </g>
                 </g>
             </g>
@@ -592,4 +535,4 @@ const DrumKit = () => {
     )
 }
 
-export default DrumKit
+export default DrumKitSvgs
