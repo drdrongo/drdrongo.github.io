@@ -1,33 +1,30 @@
 {
   "files": {
-    "main.css": "/portfolio/static/css/main.4014f7fc.chunk.css",
-    "main.js": "/portfolio/static/js/main.c7c4b025.chunk.js",
-    "main.js.map": "/portfolio/static/js/main.c7c4b025.chunk.js.map",
+    "main.css": "/portfolio/static/css/main.81226c72.chunk.css",
+    "main.js": "/portfolio/static/js/main.a91b9425.chunk.js",
+    "main.js.map": "/portfolio/static/js/main.a91b9425.chunk.js.map",
     "runtime-main.js": "/portfolio/static/js/runtime-main.a9f76519.js",
     "runtime-main.js.map": "/portfolio/static/js/runtime-main.a9f76519.js.map",
-    "static/js/2.9c08d0b0.chunk.js": "/portfolio/static/js/2.9c08d0b0.chunk.js",
-    "static/js/2.9c08d0b0.chunk.js.map": "/portfolio/static/js/2.9c08d0b0.chunk.js.map",
+    "static/js/2.6a1ea600.chunk.js": "/portfolio/static/js/2.6a1ea600.chunk.js",
+    "static/js/2.6a1ea600.chunk.js.map": "/portfolio/static/js/2.6a1ea600.chunk.js.map",
     "index.html": "/portfolio/index.html",
-    "static/css/main.4014f7fc.chunk.css.map": "/portfolio/static/css/main.4014f7fc.chunk.css.map",
-    "static/js/2.9c08d0b0.chunk.js.LICENSE.txt": "/portfolio/static/js/2.9c08d0b0.chunk.js.LICENSE.txt",
-    "static/media/boom.d89f41a5.wav": "/portfolio/static/media/boom.d89f41a5.wav",
+    "static/css/main.81226c72.chunk.css.map": "/portfolio/static/css/main.81226c72.chunk.css.map",
+    "static/js/2.6a1ea600.chunk.js.LICENSE.txt": "/portfolio/static/js/2.6a1ea600.chunk.js.LICENSE.txt",
+    "static/media/HiHat.9b572f3c.wav": "/portfolio/static/media/HiHat.9b572f3c.wav",
+    "static/media/Kick.39b7074f.wav": "/portfolio/static/media/Kick.39b7074f.wav",
+    "static/media/Ride.afa11284.wav": "/portfolio/static/media/Ride.afa11284.wav",
+    "static/media/Snare.5583dbbf.wav": "/portfolio/static/media/Snare.5583dbbf.wav",
+    "static/media/TomFloor.f349b453.wav": "/portfolio/static/media/TomFloor.f349b453.wav",
+    "static/media/TomHigh.f72cef70.wav": "/portfolio/static/media/TomHigh.f72cef70.wav",
+    "static/media/TomMid.4232766f.wav": "/portfolio/static/media/TomMid.4232766f.wav",
     "static/media/chili.cb41038f.JPG": "/portfolio/static/media/chili.cb41038f.JPG",
-    "static/media/clap.eb738e52.wav": "/portfolio/static/media/clap.eb738e52.wav",
     "static/media/hayato-headshot.9bee6cc6.JPG": "/portfolio/static/media/hayato-headshot.9bee6cc6.JPG",
-    "static/media/hayato-moustache.ffaa7406.JPG": "/portfolio/static/media/hayato-moustache.ffaa7406.JPG",
-    "static/media/hihat.0273528c.wav": "/portfolio/static/media/hihat.0273528c.wav",
-    "static/media/kick.1d842c55.wav": "/portfolio/static/media/kick.1d842c55.wav",
-    "static/media/openhat.482e5231.wav": "/portfolio/static/media/openhat.482e5231.wav",
-    "static/media/ride.44e63854.wav": "/portfolio/static/media/ride.44e63854.wav",
-    "static/media/snare.3aa3f943.wav": "/portfolio/static/media/snare.3aa3f943.wav",
-    "static/media/tink.b78647d2.wav": "/portfolio/static/media/tink.b78647d2.wav",
-    "static/media/tom.52db9c23.wav": "/portfolio/static/media/tom.52db9c23.wav",
-    "static/media/view-from-stage.33e63b14.jpeg": "/portfolio/static/media/view-from-stage.33e63b14.jpeg"
+    "static/media/hayato-moustache.ffaa7406.JPG": "/portfolio/static/media/hayato-moustache.ffaa7406.JPG"
   },
   "entrypoints": [
     "static/js/runtime-main.a9f76519.js",
-    "static/js/2.9c08d0b0.chunk.js",
-    "static/css/main.4014f7fc.chunk.css",
-    "static/js/main.c7c4b025.chunk.js"
+    "static/js/2.6a1ea600.chunk.js",
+    "static/css/main.81226c72.chunk.css",
+    "static/js/main.a91b9425.chunk.js"
   ]
 }
