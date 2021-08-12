@@ -1,14 +1,16 @@
 .DrumKit-outer {
-	background-color: pink;
 	flex-grow: 1;
 	width: 100%;
 	display: flex;
-	align-items: center;
-	justify-content: center;
+    justify-content: center;
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
 	position: relative;
+    overflow: hidden;
+    padding: 1rem;
+    box-sizing: border-box;
+    max-height: 60rem;
 	.drum-button {
 		--size: 7.5rem;
 		flex-grow: 1;
@@ -43,28 +45,28 @@
         &.animating {
             transition: transform cubic-bezier(0.57, 2.06, 0.25, 1) 0.2s;
         }
-        &#Anim-LeftTom {
+        &#Anim-TomMid {
             transform: scaleX(1) scaleY(1) rotate(0deg);
             transform-origin: 50% 25%;
             &.animating {
                 transform: scaleX(1) scaleY(0.9) rotate(-3deg);
             }
         }
-        &#Anim-RightTom {
+        &#Anim-TomHigh {
             transform: scaleX(1) scaleY(1) rotate(0deg);
             transform-origin: 50% 25%;
             &.animating {
                 transform: scaleX(1) scaleY(0.9) rotate(3deg);
             }
         }
-        &#Anim-FloorTom {
+        &#Anim-TomFloor {
             transform-origin: 25% 75%;
             transform: scaleX(1) scaleY(1);
             &.animating {
                 transform: scaleX(1.05) scaleY(0.9);
             }
         }
-        &#Anim-Hihat {
+        &#Anim-HiHat {
             transition: transform cubic-bezier(0.57, 3.79, 0.46, 0.15) 0.2s;
             transform-origin: 85% 35%;
             transform: rotate(0deg);
@@ -80,7 +82,7 @@
                 transform: rotate(5deg);
             }
         }
-        &#Anim-Bass {
+        &#Anim-Kick {
             transform-origin: 50% 100%;
             transform: scaleX(1) scaleY(1);
             &.animating {
@@ -94,5 +96,93 @@
                 transform: scaleX(1.1) scaleY(0.9);
             }
         }
+    }
+}
+
+.sequencer-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    .sequencer-img {
+        height: 3rem;
+        width: 3rem;
+        border-radius: 0.5rem;
+        margin-right: .5rem;
+        border: 1px solid rgba(250, 250, 250, 0.5);
+    }
+}
+.sequencer-btn {
+    background: rgba(0, 0, 0, 0.5);
+    min-width: 3rem;
+    min-height: 3rem;
+    border-radius: 0.5rem;
+    margin-left: .2rem;
+    border: 1px solid rgba(250, 250, 250, 0.5);
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s background 0.2s;
+    transform: scale(1);
+    &:hover {
+        transition: transform 0.2s;
+        transform: scale(1.05);
+    }
+    &.active {
+        transition: background 0.2s;
+        background: rgba(39, 150, 5, 0.3);
+    }
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0);
+        transition: background 0.2s;
+    }
+    &.glowing::after {
+        border: 1px solid gold;
+        border-radius: 0.5rem;
+    }
+}
+
+
+
+.drum-project-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(140,140,200,0.2);
+
+}
+
+.sequencer-container {
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 1rem 0 0 1rem;
+    width: fit-content;
+    height: fit-content;
+    flex-shrink: 0;
+}
+.play-button {
+    background-color: rgba(250, 250, 250, 0.5);
+    color: white;
+    cursor: pointer;
+    width: 4rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    box-shadow: unset;
+    border: unset;
+    margin: 1rem auto 0;
+    &:hover {
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    .play-button-img {
+        width: 2rem;
+        height: 2rem;
+        object-position: center;
+        object-fit:contain;
     }
 }

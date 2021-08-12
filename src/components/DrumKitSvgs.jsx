@@ -2,12 +2,12 @@ import React from 'react'
 
 const DrumKitSvgs = () => {
     return (
-        <svg width="1542" height="894" viewBox="0 0 1542 894" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="600" height="600" viewBox="0 0 1542 894" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g id="DrumKit">
                 <path id="Shadow"
                     d="M1542 807C1542 855.049 1196.81 894 771 894C345.188 894 0 855.049 0 807C0 758.951 345.188 720 771 720C1196.81 720 1542 758.951 1542 807Z"
                     fill="#1A1A1A" fillOpacity="0.3" />
-                <g id="Anim-LeftTom">
+                <g id="Anim-TomMid">
                     <rect id="Rectangle 18" x="447" y="172" width="233" height="125" fill="#3595FF" stroke="black"
                         strokeWidth="4" />
                     <g id="Bottom Section">
@@ -43,7 +43,7 @@ const DrumKitSvgs = () => {
                             fillOpacity="0.5" />
                     </g>
                 </g>
-                <g id="Anim-RightTom">
+                <g id="Anim-TomHigh">
                     <rect id="Rectangle 18_2" x="837" y="172" width="233" height="125" fill="#3595FF" stroke="black"
                         strokeWidth="4" />
                     <g id="Bottom Section_2">
@@ -79,8 +79,8 @@ const DrumKitSvgs = () => {
                             fillOpacity="0.5" />
                     </g>
                 </g>
-                <g id="FloorTom">
-                    <g id="Anim-FloorTom">
+                <g id="TomFloor">
+                    <g id="Anim-TomFloor">
                         <rect id="Rectangle 18_3" x="309.169" y="406.39" width="318.663" height="297.558" fill="#3595FF"
                             stroke="black" strokeWidth="4" />
                         <g id="Bottom Section_3">
@@ -118,7 +118,7 @@ const DrumKitSvgs = () => {
                                 fill="#87FFFF" fillOpacity="0.5" />
                         </g>
                     </g>
-                    <g id="Static-FloorTom">
+                    <g id="Static-TomFloor">
                         <g id="Right Leg">
                             <path id="Ellipse 3"
                                 d="M696 780C696 791.331 688.124 800 679 800C669.876 800 662 791.331 662 780C662 768.669 669.876 760 679 760C688.124 760 696 768.669 696 780Z"
@@ -264,9 +264,9 @@ const DrumKitSvgs = () => {
                     <circle id="Ellipse 15" cx="726.587" cy="234" r="4" fill="black" />
                     <circle id="Ellipse 16" cx="797.587" cy="234" r="4" fill="black" />
                 </g>
-                <g id="Bass">
-                    <g id="Static-Bass">
-                        <g id="Bass Right Leg">
+                <g id="Kick">
+                    <g id="Static-Kick">
+                        <g id="Kick Right Leg">
                             <path id="Ellipse 4"
                                 d="M1039.59 799C1039.59 809.921 1032.03 818 1023.59 818C1015.15 818 1007.59 809.921 1007.59 799C1007.59 788.079 1015.15 780 1023.59 780C1032.03 780 1039.59 788.079 1039.59 799Z"
                                 fill="#414141" stroke="black" strokeWidth="6" />
@@ -275,7 +275,7 @@ const DrumKitSvgs = () => {
                             <rect id="Rectangle 39" x="987.587" y="530" width="26" height="76" rx="5" fill="white"
                                 stroke="black" strokeWidth="6" />
                         </g>
-                        <g id="Bass Left Leg">
+                        <g id="Kick Left Leg">
                             <path id="Ellipse 5"
                                 d="M514 799C514 809.921 506.439 818 498 818C489.561 818 482 809.921 482 799C482 788.079 489.561 780 498 780C506.439 780 514 788.079 514 799Z"
                                 fill="#414141" stroke="black" strokeWidth="6" />
@@ -285,8 +285,8 @@ const DrumKitSvgs = () => {
                                 stroke="black" strokeWidth="6" />
                         </g>
                     </g>
-                    <g id="Anim-Bass">
-                        <g id="Bass Body">
+                    <g id="Anim-Kick">
+                        <g id="Kick Body">
                             <circle id="Ellipse 5_2" cx="757.587" cy="566" r="237" fill="#3595FF" stroke="black"
                                 strokeWidth="6" />
                             <circle id="Ellipse 4_2" cx="757.587" cy="566" r="217" fill="white" stroke="black"
@@ -508,7 +508,7 @@ const DrumKitSvgs = () => {
                             </g>
                         </g>
                     </g>
-                    <g id="Anim-Hihat">
+                    <g id="Anim-HiHat">
                         <rect id="Rectangle 53" x="1229.52" y="325.697" width="73.3359" height="20.4023" rx="10.2012"
                             fill="#D7D70A" stroke="black" strokeWidth="4" />
                         <path id="Rectangle 50"
