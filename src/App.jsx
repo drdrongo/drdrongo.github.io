@@ -4,24 +4,25 @@ import Navbar from 'components/Navbar';
 import HomePage from 'pages/HomePage.jsx';
 import AboutPage from 'pages/AboutPage.jsx';
 import ProjectsPage from 'pages/ProjectsPage.jsx';
-import NotFound from 'pages/NotFound.jsx';
+import NotFoundPage from 'pages/NotFoundPage.jsx';
 import { CSSTransition } from 'react-transition-group';
 
 const routes = [
-	{ path: '/', name: 'Home', Component: HomePage },
-	{ path: '/about', name: 'About', Component: AboutPage },
-	{ path: '/projects', name: 'Projects', Component: ProjectsPage },
-	{ path: '*', name: 'NotFound', Component: NotFound, status: 404 },
+	{ exact: true, path: '/', name: 'Home', Component: HomePage },
+	{ exact: true, path: '/about', name: 'About', Component: AboutPage },
+	{ exact: true, path: '/projects', name: 'Projects', Component: ProjectsPage },
+	// { exact: false, path: '*', name: 'NotFound', Component: NotFoundPage, status: 404 },
 ];
 
 const App = () => {
 	return (
-		<Router basename="/portfolio" >
+		// <Router >
+		<Router basename="/portfolio">
 			<Navbar routes={routes} />
 			<Switch>
 				<div className="container">
-					{routes.map(({ path, name, Component, status }) => (
-						<Route key={path} exact path={path} status={status || 200}>
+					{routes.map(({ path, exact, name, Component, status }) => (
+						<Route key={path} exact={exact} path={path} status={status || 200}>
 						{({ match }) => (
 							<CSSTransition
 								in={match != null}
@@ -36,9 +37,6 @@ const App = () => {
 						)}
 						</Route>
 					))}
-					{/* <Route path="*" status={404}>
-						<NotFound />
-					</Route> */}
 				</div>
 			</Switch>
 		</Router>
