@@ -10,14 +10,18 @@ const Navbar = ({ routes }) => {
     return (
         <nav className="navbar">
             <ul className="navbar__inner">
-            {routes.map(({ path, name }) => (
-                <li
-                    key={path}
-                    className={`navbar__item ${path === location.pathname ? 'on' : ''}`}
-                >
-                    <Link to={path}>{name}</Link>
-                </li>
-            ))}
+            {routes.map(({ path, name, status }) => {
+                if (status === 404) return null;
+
+                return (
+                    <li
+                        key={path}
+                        className={`navbar__item ${path === location.pathname ? 'on' : ''}`}
+                    >
+                        <Link to={path}>{name}</Link>
+                    </li>
+                )
+            })}
             </ul>
         </nav>
     );

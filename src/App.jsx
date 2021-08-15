@@ -1,5 +1,5 @@
 import 'styles/App.scss';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from 'components/Navbar';
 import HomePage from 'pages/HomePage.jsx';
 import AboutPage from 'pages/AboutPage.jsx';
@@ -16,7 +16,7 @@ const routes = [
 
 const App = () => {
 	return (
-		<Router>
+		<Router basename="/portfolio" >
 			<Navbar routes={routes} />
 			<Switch>
 				<div className="container">
