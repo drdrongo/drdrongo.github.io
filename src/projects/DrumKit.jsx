@@ -25,6 +25,9 @@ import imgPlay from 'assets/images/play.png';
 import imgPause from 'assets/images/pause.png';
 
 const DrumKit = () => {
+    const currentlyPlaying = useRef(0);
+    const [renderAgain, setRenderAgain] = useState(false);
+
     const onKeyDown = useCallback(({e, key, drum, audio}) => {
         if (e.repeat || !drums[e.key] || e.key !== key) return;
 
@@ -34,8 +37,9 @@ const DrumKit = () => {
 
     const onKeyUp = useCallback(({e, key, drum}) => {
         if (drums[e.key] && e.key === key) drum.classList.remove('animating');
-    }, [])
+    }, []);
 
+    // Animation listeners.
     const addAnimations = useCallback(() => {
         Object.values(drums).forEach(({ id, key, audio }) => {
             console.log('id id', id)
@@ -46,6 +50,7 @@ const DrumKit = () => {
         });
     }, [onKeyDown, onKeyUp]);
 
+    // Add drumkit animations on Render. Removes listeners.
     useEffect(() => {
         addAnimations();
         return () => {
@@ -54,19 +59,18 @@ const DrumKit = () => {
                 document.removeEventListener('keydown', e => onKeyDown({e, key, drum, audio}));
                 document.removeEventListener('keyup', e => onKeyUp({e, key, drum}));
             });
-        }
+        };
     }, [addAnimations, onKeyDown, onKeyUp]);
 
-    const sequencer = () => {
-        const soundButtons = onlySounds.map(({id, audio}, idx) => {
+    // Sequencer Button Rows
+    const soundButtonRows = useMemo(() => {
+        return onlySounds.map(({ id, audio }) => {
             const buttons = [];
             for (let i=0; i<8; i++) {
                 buttons.push(
                     <button
-                        className={
-                            `sequencer-btn sequence-${i} ${soundSlots[i].some(ss => ss.id === id) ? 'active' : ''}`}
-
-
+                        className={`sequencer-btn sequence-${i} ${soundSlots[i].some(ss => ss.id === id) ? 'active' : ''}`}
+                        id={id}
                         number={i}
                         onClick={e => {
                             const active = soundSlots[i].some(ss => ss.id === id);
@@ -83,28 +87,35 @@ const DrumKit = () => {
             };
             return buttons;
         });
+    }, []);
 
-        return soundButtons.map((sb, idx) => {
-            const drumName = onlySounds[idx].id;
-            return (
+    // Sequencer: Images and Rows of sequencer btns
+    const sequencer = useMemo(() => soundButtonRows.map((row, idx) => {
+        const { id } = onlySounds[idx];
+        return (
             <div className="sequencer-row">
                 <img
                     className="sequencer-img"
-                    src={images[drumName]}
-                    alt={drumName}
+                    src={images[id]}
+                    alt={id}
                 />
-                {sb.map(sb => sb)}
+                {row}
             </div>
-            )
-        })
-    };
+        );
+    }), [soundButtonRows]);
 
-    const currentlyPlaying = useRef(0);
-
+    // Highlights and plays sequencer row buttons
     const intervalActions = useCallback(() => {
         const curr = currentlyPlaying.current;
         document.querySelectorAll('.sequencer-btn').forEach(btn => btn.classList.remove('glowing'));
-        document.querySelectorAll(`.sequence-${curr}`).forEach(btn => btn && btn.classList.add('glowing'));
+        document.querySelectorAll(`.sequence-${curr}`).forEach(btn => {
+            btn.classList.add('glowing');
+            if (btn.classList.contains('active')) {
+                const drumEl = document.getElementById(`Anim-${btn.id}`);
+                drumEl.classList.add('animating');
+                setTimeout(() => drumEl.classList.remove('animating'), 100);
+            }
+        });
         if (soundSlots[curr].length > 0) {
             const audios = soundSlots[curr].map(({audio}) => audio);
             audios.forEach(aud => play(aud));
@@ -112,41 +123,72 @@ const DrumKit = () => {
         currentlyPlaying.current = curr === 7 ? 0 : curr + 1;
     }, [currentlyPlaying]);
 
-    const [playing, setPlaying] = useState(false);
-    const toggleSequencer = useCallback(() => {
-        if (playing) {
-            clearInterval(window.playInterval);
-            setPlaying(false);
-            return;
-        }
+    // Custom interval to allow for changing BPM
+    const playInterval = useCallback((cb, int) => {
+        if (!playing) return;
 
-        setPlaying(true);
-        window.playInterval = setInterval(intervalActions, 400);
-    }, [playing, intervalActions]);
+        setTimeout(() => {
+            cb();
+            playInterval(cb, (60/bpm) * 1000);
+        }, int);
+    }, []);
+
+    // BPM change button actions
+    const onBpmChange = useCallback(dir => {
+        if (dir === '+') {
+            bpm = bpm + 5;
+            setRenderAgain(!renderAgain);
+        } else if (dir === '-' && bpm - 1 > 0) {
+            bpm = bpm - 5;
+            setRenderAgain(!renderAgain);
+        }
+    }, [renderAgain]);
+
+    // Actions when "PLAY" is clicked
+    const onPlayClick = useCallback(() => {
+        setRenderAgain(!renderAgain);
+        playing = !playing;
+        playInterval(intervalActions, (60/bpm) * 1000);
+    }, [renderAgain, intervalActions, playInterval]);
 
     return (
         <div className="drum-project-container">
+            {/* --- Sequencer --- */}
             <div className="sequencer-container">
-                {sequencer()}
-                <button
-                    onClick={toggleSequencer}
-                    className="play-button"
-                >
-                    <img
-                        className="play-button-img"
-                        src={playing ? imgPause : imgPlay}
-                        alt='playing or pausing'
-                    />
-                </button>
+                {/* Sequencer Drums */}
+                {sequencer}
+                {/* Sequencer Option Buttons */}
+                <div className="sequencer-options">
+                    {/* Sequencer Play Button */}
+                    <button
+                        onClick={onPlayClick}
+                        className="play-button"
+                    >
+                        <img
+                            className="play-button-img"
+                            src={playing ? imgPause : imgPlay}
+                            alt='playing or pausing'
+                        />
+                    </button>
+                    {/* Sequencer Speed Buttons */}
+                    <div className="bpm-options">
+                        <button onClick={() => onBpmChange('-')}>-</button>
+                        <span>{bpm}</span>
+                        <button onClick={() => onBpmChange('+')}>+</button>
+                    </div>
+                </div>
             </div>
-            <div
-                className="DrumKit-outer"
-            >
+            {/* --- DrumKit --- */}
+            <div className="DrumKit-outer">
                 <DrumKitSvgs />
             </div>
         </div>
     );
 };
+
+// -------- Variables --------
+let bpm = 180;
+let playing = false;
 
 const soundSlots = [[], [], [], [], [], [], [], []]
 
@@ -178,6 +220,6 @@ const drums = {
     f: {key: 'f', id: 'TomMid', audio: new Audio(TomMid)},
 };
 
-const onlySounds = Object.values(drums).map(({ id, audio }) => ({ id, audio }));
+const onlySounds = Object.values(drums).map(({ id, audio, key }) => ({ id, audio, key }));
 
 export default DrumKit
