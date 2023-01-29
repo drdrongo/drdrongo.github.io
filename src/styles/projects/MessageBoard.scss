@@ -7,7 +7,8 @@
 
   .messageboard-list-outer {
     flex-grow: 1;
-    overflow: scroll;
+    overflow: auto;
+    height: 20rem;
   }
 
   .messageboard-list {
@@ -45,12 +46,62 @@
     }
 
   }
+
+  .input-section {
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: #202124;
+    display: flex;
+    align-items: flex-end;
+    padding: 0.4rem;
+
+    button {
+      background-color: rgba(0, 0, 0, 0);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 0.5rem;
+      height: 4rem;
+      width: 4rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+
+      svg {
+        font-size: 2.2rem;
+      }
+
+      &.settings-button {
+        cursor: pointer;
+      }
+
+      &.send-button {
+        margin-left: 1rem;
+        width: 7rem;
+      }
+    }
+
+    textarea {
+      resize: none;
+      background-color: rgba(0, 0, 0, 0);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      flex-grow: 1;
+
+      &:focus {
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        outline: none;
+      }
+    }
+
+
+  }
 }
 
 #messageboard-modal-inner {
   height: fit-content;
   width: fit-content;
-  background-color: white;
   border-radius: 4px;
   transform: translate(-50%, -50%);
   top: 50%;
@@ -59,6 +110,49 @@
   padding: 2rem;
   display: flex;
   flex-direction: column;
+  background-color: #202124;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    input {
+      margin-bottom: 0.6rem;
+
+      background-color: rgba(0, 0, 0, 0);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      flex-grow: 1;
+
+      &:focus {
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        outline: none;
+      }
+    }
+
+    button {
+      background-color: rgba(0, 0, 0, 0);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 0.5rem;
+      height: 3rem;
+      width: 100%;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      cursor: pointer;
+
+      svg {
+        font-size: 2.2rem;
+      }
+    }
+
+  }
 
   label {
     margin-bottom: 0.4rem;

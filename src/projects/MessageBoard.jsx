@@ -1,72 +1,16 @@
 import 'styles/projects/MessageBoard.scss';
-import axios from 'axios';
 import { DateTime } from 'luxon';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { timeAgo } from 'utils/utils';
 import SettingsIcon from '@mui/icons-material/Settings';
+import SendIcon from '@mui/icons-material/Send';
+import SaveIcon from '@mui/icons-material/Save';
 import { Modal } from '@mui/material';
 import { useForm } from 'react-hook-form';
-
-// import { sheets_v4 } from '@googleapis/sheets';
-// import GoogleSpreadsheet from 'google-spreadsheet';
+import TextareaAutosize from 'react-autosize-textarea';
+import ColorPicker from './ColorPicker';
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-
-// async function authorize() {
-//   // TODO: Change placeholder below to generate authentication credentials. See
-//   // https://developers.google.com/sheets/quickstart/nodejs#step_3_set_up_the_sample
-//   //
-//   // Authorize using one of the following scopes:
-//   //   'https://www.googleapis.com/auth/drive'
-//   //   'https://www.googleapis.com/auth/drive.file'
-//   //   'https://www.googleapis.com/auth/spreadsheets'
-//   let authClient = null;
-
-//   if (authClient == null) {
-//     throw Error('authentication failed');
-//   }
-
-//   return authClient;
-// }
-
-// // yarn add googleapis@105 @google-cloud/local-auth@2.1.0
-
-// async function main () {
-//   const authClient = await authorize();
-//   const request = {
-//     // The ID of the spreadsheet to update.
-//     spreadsheetId: 'my-spreadsheet-id',  // TODO: Update placeholder value.
-
-//     // The A1 notation of a range to search for a logical table of data.
-//     // Values are appended after the last row of the table.
-//     range: 'my-range',  // TODO: Update placeholder value.
-
-//     // How the input data should be interpreted.
-//     valueInputOption: '',  // TODO: Update placeholder value.
-
-//     // How the input data should be inserted.
-//     insertDataOption: '',  // TODO: Update placeholder value.
-
-//     resource: {
-//       // TODO: Add desired properties to the request body.
-//     },
-
-//     auth: authClient,
-//   };
-
-//   try {
-//     const response = (await sheets_v4.spreadsheets.values.append(request)).data;
-//     // TODO: Change code below to process the `response` object:
-//     console.log(JSON.stringify(response, null, 2));
-//   } catch (err) {
-//     console.error(err);
-//   }
-// }
-// main();
-
-// const rows = await sheet.getRows();
-// const raw_data = rows[1]._rawData;
-// const header_values = rows[1]._sheet.headerValues;
 
 /**
  *
@@ -74,6 +18,9 @@ const { GoogleSpreadsheet } = require('google-spreadsheet');
 const doc = new GoogleSpreadsheet(process.env.REACT_APP_GOOGLE_SHEET_ID);
 
 const MessageBoard = () => {
+  const messagesEndRef = useRef(null);
+  const scrollToBottom = () => messagesEndRef.current?.scrollIntoView();
+
   // For each thing you should create a new item which you can make into a thingy.
   // How are you gonna keep track of them? You could use the github API but you have to actually
   // authorize github right? To have an account.
@@ -111,7 +58,10 @@ const MessageBoard = () => {
   };
 
   const addRow = useCallback(async () => {
+    if (!message.length) return;
+
     const content = message;
+    setMessage('');
     const parent = 0;
     const username = currUsername;
     const timestamp = Math.floor(Date.now() / 1000);
@@ -120,7 +70,6 @@ const MessageBoard = () => {
     const newRow = await sheet.addRow({ content, parent, timestamp, username, rowNumber }, { insert: true });
     if (newRow) {
       setMyRows(prev => [...prev, newRow]);
-      setMessage('');
     } else {
       console.error(newRow, 'problem adding row');
     }
@@ -130,6 +79,10 @@ const MessageBoard = () => {
   useEffect(() => {
     sheet && fetcharoo();
   }, [sheet, fetcharoo]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [myRows]);
 
   useEffect(() => {
     (async () => {
@@ -162,16 +115,24 @@ const MessageBoard = () => {
               required
               {...register('username')}
             />
-            <button type="submit">Save</button>
+            <ColorPicker />
+            <button type="submit">
+              <SaveIcon />
+            </button>
           </form>
         </div>
       </Modal>
 
       <div className="messageboard-list-outer">
         <ul className="messageboard-list">
-          {myRows.map(({ content, timestamp, username, rowNumber }) => {
+          {myRows.map(({ content, timestamp, username, rowNumber }, idx) => {
+            // ref only for last item.
             return (
-              <li key={rowNumber}>
+              <li
+                ref={idx === myRows.length - 1 ? messagesEndRef : null}
+                key={rowNumber}
+                style={{ position: 'relative' }}
+              >
                 <div>
                   <span className="name">{username}</span>
                   <span className="time">{toTimeAgo(timestamp)}</span>
@@ -184,19 +145,28 @@ const MessageBoard = () => {
       </div>
 
       <div className="input-section">
-        <button onClick={openSettings}>
+        <button className="settings-button" onClick={openSettings}>
           <SettingsIcon />
         </button>
 
-        <input
+        <TextareaAutosize
+          onResize={e => {}}
           type="text"
           id="message"
           name="message"
           value={message}
           onChange={e => setMessage(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && addRow()}
+          onKeyDown={e => e.metaKey && e.key === 'Enter' && addRow()}
         />
-        <button onClick={addRow}>Send</button>
+        <button
+          className="send-button"
+          onClick={addRow}
+          style={{
+            ...(message.length ? { border: '1px solid rgba(255,255,255,0.7)', cursor: 'pointer' } : {}),
+          }}
+        >
+          <SendIcon />
+        </button>
       </div>
     </div>
   );
