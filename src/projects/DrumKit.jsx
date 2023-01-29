@@ -42,7 +42,6 @@ const DrumKit = () => {
     // Animation listeners.
     const addAnimations = useCallback(() => {
         Object.values(drums).forEach(({ id, key, audio }) => {
-            console.log('id id', id)
             const drum = document.getElementById(`Anim-${id}`);
             drum.classList.add('animated');
             document.addEventListener('keydown', e => onKeyDown({e, key, drum, audio}));
@@ -58,6 +57,7 @@ const DrumKit = () => {
                 const drum = document.getElementById(id);
                 document.removeEventListener('keydown', e => onKeyDown({e, key, drum, audio}));
                 document.removeEventListener('keyup', e => onKeyUp({e, key, drum}));
+                playing = !playing;
             });
         };
     }, [addAnimations, onKeyDown, onKeyUp]);
