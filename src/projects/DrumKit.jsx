@@ -63,7 +63,7 @@ const DrumKit = () => {
         document.removeEventListener('keydown', drumListeners[key]);
         document.removeEventListener('keyup', drumListeners[key]);
       });
-      playing = !playing;
+      playing = false;
     };
   }, [addAnimations, onKeyDown, onKeyUp]);
 
@@ -102,6 +102,7 @@ const DrumKit = () => {
         const { id } = onlySounds[idx];
         return (
           <div className="sequencer-row" key={`${row}-${id}`}>
+            <span className="sequencer-key">{Object.keys(drums)[idx]}</span>
             <img className="sequencer-img" src={images[id]} alt={id} />
             {row}
           </div>
