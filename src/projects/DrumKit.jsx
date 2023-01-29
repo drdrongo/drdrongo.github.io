@@ -72,6 +72,7 @@ const DrumKit = () => {
                         className={`sequencer-btn sequence-${i} ${soundSlots[i].some(ss => ss.id === id) ? 'active' : ''}`}
                         id={id}
                         number={i}
+            key={`${id}-${i}`}
                         onClick={e => {
                             const active = soundSlots[i].some(ss => ss.id === id);
                             if (active) {
@@ -93,12 +94,8 @@ const DrumKit = () => {
     const sequencer = useMemo(() => soundButtonRows.map((row, idx) => {
         const { id } = onlySounds[idx];
         return (
-            <div className="sequencer-row">
-                <img
-                    className="sequencer-img"
-                    src={images[id]}
-                    alt={id}
-                />
+          <div className="sequencer-row" key={`${row}-${id}`}>
+            <img className="sequencer-img" src={images[id]} alt={id} />
                 {row}
             </div>
         );

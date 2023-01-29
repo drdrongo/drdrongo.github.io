@@ -1,6 +1,6 @@
 import 'styles/projects/MessageBoard.scss';
 import { DateTime } from 'luxon';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { timeAgo } from 'utils/utils';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SendIcon from '@mui/icons-material/Send';
@@ -8,7 +8,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import { Modal } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import TextareaAutosize from 'react-autosize-textarea';
-import ColorPicker from './ColorPicker';
+const BadWordFilter = require('bad-words');
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
@@ -17,27 +17,51 @@ const { GoogleSpreadsheet } = require('google-spreadsheet');
  */
 const doc = new GoogleSpreadsheet(process.env.REACT_APP_GOOGLE_SHEET_ID);
 
+const colorMap = {
+  white: 'white',
+  red: '#EA2B1F',
+  orange: '#FF8811',
+  yellow: '#FFC600',
+  green: '#329F5B',
+  blue: '#2EC0F9',
+  purple: '#A882DD',
+  pink: '#FCB5B5',
+};
+
 const MessageBoard = () => {
+  const censor = useMemo(() => new BadWordFilter(), []);
+
   const messagesEndRef = useRef(null);
   const scrollToBottom = () => messagesEndRef.current?.scrollIntoView();
+
+  const [myRows, setMyRows] = useState([]);
+  const [userColor, setUserColor] = useState(localStorage.getItem('userColor') || 'white');
+  const [sheet, setSheet] = useState();
+  const [currUsername, setCurrUsername] = useState(
+    localStorage.getItem('username') || `new-user-${Math.floor(Math.random() * 1000)}`
+  );
 
   // For each thing you should create a new item which you can make into a thingy.
   // How are you gonna keep track of them? You could use the github API but you have to actually
   // authorize github right? To have an account.
   // Can you just have a little text file which gets written to?
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, watch } = useForm({
+    defaultValues: {
+      username: currUsername,
+      userColor: userColor,
+    },
+  });
 
-  const [myRows, setMyRows] = useState([]);
-  const [sheet, setSheet] = useState();
-  const [currUsername, setCurrUsername] = useState(
-    localStorage.getItem('username') || `new-user-${Math.floor(Math.random() * 1000)}`
-  );
+  const selectedColor = watch('userColor');
+
   const [message, setMessage] = useState('');
   const [settingsOpen, setSettingsOpen] = useState(false);
   const openSettings = () => setSettingsOpen(true);
   const closeSettings = () => setSettingsOpen(false);
 
   const fetcharoo = useCallback(async () => {
+    if (!sheet) return;
+
     const rows = await sheet.getRows();
     setMyRows(rows);
   }, [sheet]);
@@ -45,12 +69,6 @@ const MessageBoard = () => {
   const changeSheet = useCallback((idx = 0) => {
     setSheet(doc.sheetsByIndex[idx]);
   }, []);
-
-  const editRow = () => {
-    // const row_value = rows[0][id];
-    // rows[0][id] = Number(row_value) + 1;
-    // await rows[0].save();
-  };
 
   const toTimeAgo = timeInSecs => {
     const dateTime = DateTime.fromSeconds(Number(timeInSecs));
@@ -60,29 +78,30 @@ const MessageBoard = () => {
   const addRow = useCallback(async () => {
     if (!message.length) return;
 
-    const content = message;
+    const content = censor.clean(message);
     setMessage('');
     const parent = 0;
     const username = currUsername;
     const timestamp = Math.floor(Date.now() / 1000);
     const rowNumber = 'FoobarrowNumber';
 
-    const newRow = await sheet.addRow({ content, parent, timestamp, username, rowNumber }, { insert: true });
+    const newRow = await sheet.addRow({ content, parent, timestamp, username, rowNumber, userColor }, { insert: true });
     if (newRow) {
       setMyRows(prev => [...prev, newRow]);
+      scrollToBottom();
     } else {
       console.error(newRow, 'problem adding row');
     }
-  }, [sheet, message, currUsername]);
+  }, [sheet, message, currUsername, userColor, censor]);
 
   // when sheet changes, get its rows.
   useEffect(() => {
-    sheet && fetcharoo();
-  }, [sheet, fetcharoo]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [myRows]);
+    fetcharoo();
+    const msgIntv = setInterval(() => {
+      fetcharoo();
+    }, 5000);
+    return () => clearInterval(msgIntv);
+  }, [fetcharoo]);
 
   useEffect(() => {
     (async () => {
@@ -95,11 +114,24 @@ const MessageBoard = () => {
     })();
   }, []);
 
-  const onFormSubmit = data => {
-    setCurrUsername(data.username);
-    localStorage.setItem('username', data.username);
+  const onFormSubmit = ({ username, userColor }) => {
+    if (!censor.isProfane(username)) {
+      setCurrUsername(username);
+      localStorage.setItem('username', username);
+    }
+    setUserColor(userColor);
+    localStorage.setItem('userColor', userColor);
     closeSettings();
   };
+
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!myRows.length || loaded) return;
+
+    setLoaded(true);
+    scrollToBottom();
+  }, [loaded, myRows]);
 
   return (
     <div id="MessageBoard">
@@ -114,8 +146,27 @@ const MessageBoard = () => {
               name="username"
               required
               {...register('username')}
+              style={{
+                color: colorMap[selectedColor],
+              }}
             />
-            <ColorPicker />
+            <div className="userColors">
+              {Object.keys(colorMap).map(color => {
+                return (
+                  <label key={color}>
+                    <div className="color-box" style={{ backgroundColor: colorMap[color] }} />
+                    <input
+                      {...register('userColor')}
+                      type="radio"
+                      value={color}
+                      name="userColor"
+                      id={`userColor-${color}`}
+                    />
+                  </label>
+                );
+              })}
+            </div>
+
             <button type="submit">
               <SaveIcon />
             </button>
@@ -125,7 +176,7 @@ const MessageBoard = () => {
 
       <div className="messageboard-list-outer">
         <ul className="messageboard-list">
-          {myRows.map(({ content, timestamp, username, rowNumber }, idx) => {
+          {myRows.map(({ userColor: thisUserColor, content, timestamp, username, rowNumber }, idx) => {
             // ref only for last item.
             return (
               <li
@@ -134,8 +185,10 @@ const MessageBoard = () => {
                 style={{ position: 'relative' }}
               >
                 <div>
-                  <span className="name">{username}</span>
-                  <span className="time">{toTimeAgo(timestamp)}</span>
+                  <span className="name" style={{ color: colorMap[thisUserColor] }}>
+                    {username}
+                  </span>
+                  <span className="time">{+timestamp ? toTimeAgo(timestamp) : '---'}</span>
                 </div>
                 <p>{content}</p>
               </li>
@@ -158,13 +211,7 @@ const MessageBoard = () => {
           onChange={e => setMessage(e.target.value)}
           onKeyDown={e => e.metaKey && e.key === 'Enter' && addRow()}
         />
-        <button
-          className="send-button"
-          onClick={addRow}
-          style={{
-            ...(message.length ? { border: '1px solid rgba(255,255,255,0.7)', cursor: 'pointer' } : {}),
-          }}
-        >
+        <button className={`send-button ${message.length === 0 ? 'disabled' : ''}`} onClick={addRow}>
           <SendIcon />
         </button>
       </div>
