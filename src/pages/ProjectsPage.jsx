@@ -25,12 +25,16 @@ const ProjectsPage = () => {
     () =>
       projects.map(({ title }) => {
         return (
-          <button className="project-selector-button" key={title} onClick={() => setCurrentProject(title)}>
+          <button
+            className={`project-selector-button ${currentProject === title ? 'selected' : ''}`}
+            key={title}
+            onClick={() => setCurrentProject(title)}
+          >
             {title}
           </button>
         );
       }),
-    [projects]
+    [projects, currentProject]
   );
 
   return (

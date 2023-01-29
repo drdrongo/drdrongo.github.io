@@ -38,7 +38,9 @@
     transition: all 0.3s;
     cursor: pointer;
 
-    &:hover {
+
+    &:hover,
+    &.selected {
       background-color: darkcyan;
       color: white;
       transition: all 0.3s;

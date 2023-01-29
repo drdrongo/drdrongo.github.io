@@ -135,6 +135,20 @@ const MessageBoard = () => {
 
   return (
     <div id="MessageBoard">
+      <div className="project-explanation">
+        <p style={{ margin: '0.5rem auto', width: 'fit-content' }}>
+          Message board using{' '}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href={`https://docs.google.com/spreadsheets/d/${process.env.REACT_APP_GOOGLE_SHEET_ID}`}
+            style={{ color: 'blue' }}
+          >
+            Google Sheets as a database.
+          </a>{' '}
+          Leave a message!
+        </p>
+      </div>
       <Modal open={settingsOpen} onClose={closeSettings}>
         <div id="messageboard-modal-inner">
           <form onSubmit={handleSubmit(onFormSubmit, errors => console.error(errors))}>
