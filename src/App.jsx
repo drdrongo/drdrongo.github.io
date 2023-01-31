@@ -15,7 +15,7 @@ const routes = [
 
 const App = () => {
   return (
-    <Router basename="/portfolio">
+    <Router>
       <Navbar routes={routes} />
       <Switch>
         <div className="container">
@@ -32,9 +32,7 @@ const App = () => {
           ))}
         </div>
       </Switch>
-      {/* <Route component={NotFoundPage} />
-      <Route path="/404" element={<NotFoundPage />} />
-      <Route path="*" element={<NotFoundPage />} /> */}
+      <Route path="*" element={<NotFoundPage />} />
     </Router>
   );
 };
