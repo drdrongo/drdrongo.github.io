@@ -32,9 +32,9 @@ const App = () => {
           ))}
         </div>
       </Switch>
-      <Route component={NotFoundPage} />
+      {/* <Route component={NotFoundPage} />
       <Route path="/404" element={<NotFoundPage />} />
-      <Route path="*" element={<NotFoundPage />} />
+      <Route path="*" element={<NotFoundPage />} /> */}
     </Router>
   );
 };
