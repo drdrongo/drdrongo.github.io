@@ -8,6 +8,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import { Modal } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import TextareaAutosize from 'react-autosize-textarea';
+import { useThemeContext } from 'providers/ThemeProvider';
 const BadWordFilter = require('bad-words');
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
@@ -29,6 +30,8 @@ const colorMap = {
 };
 
 const MessageBoard = () => {
+  const { isLight } = useThemeContext();
+
   const censor = useMemo(() => new BadWordFilter(), []);
 
   const messagesEndRef = useRef(null);
@@ -142,7 +145,7 @@ const MessageBoard = () => {
             target="_blank"
             rel="noreferrer"
             href={`https://docs.google.com/spreadsheets/d/${process.env.REACT_APP_GOOGLE_SHEET_ID}`}
-            style={{ color: 'blue' }}
+            style={{ color: isLight ? 'blue' : 'pink' }}
           >
             Google Sheets as a database.
           </a>{' '}

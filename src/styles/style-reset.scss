@@ -1,28 +1,71 @@
-html, body,
-h1, h2, h3, h4, h5, h6,
-a, p, span,
-em, small, strong,
-sub, sup,
-mark, del, ins, strike,
-abbr, dfn,
-blockquote, q, cite,
-code, pre,
-ol, ul, li, dl, dt, dd,
-div, section, article,
-main, aside, nav,
-header, hgroup, footer,
-img, figure, figcaption,
-address, time,
-audio, video,
-canvas, iframe,
-details, summary,
-fieldset, form, label, legend,
-table, caption,
-tbody, tfoot, thead,
-tr, th, td {
-    margin: 0;
-    padding: 0;
-    border: 0;
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+p,
+span,
+em,
+small,
+strong,
+sub,
+sup,
+mark,
+del,
+ins,
+strike,
+abbr,
+dfn,
+blockquote,
+q,
+cite,
+code,
+pre,
+ol,
+ul,
+li,
+dl,
+dt,
+dd,
+div,
+section,
+article,
+main,
+aside,
+nav,
+header,
+hgroup,
+footer,
+img,
+figure,
+figcaption,
+address,
+time,
+audio,
+video,
+canvas,
+iframe,
+details,
+summary,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 html {
@@ -53,16 +96,16 @@ header,
 nav,
 section,
 main {
-    display: block;
+  display: block;
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 *:before,
 *:after {
-    box-sizing: inherit;
+  box-sizing: inherit;
 }
 
 table {
@@ -118,13 +161,15 @@ q:before {
 
 // Added styles
 html {
-	height: 100%;
+  height: 100%;
 }
+
 body {
-	min-height: 100vh;
+  height: 100%;
 }
+
 #root {
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
