@@ -9,7 +9,7 @@
     "@google-cloud/local-auth": "2.1.0",
     "@googleapis/sheets": "^4.0.1",
     "@mui/icons-material": "^5.11.0",
-    "@mui/material": "^5.11.6",
+    "@mui/material": "^5.11.7",
     "axios": "^1.2.5",
     "bad-words": "^3.0.4",
     "dotenv": "^16.0.3",
