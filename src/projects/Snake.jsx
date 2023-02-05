@@ -1,5 +1,6 @@
-import { Checkbox, Radio } from '@mui/material';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { ThemeProvider } from '@emotion/react';
+import { Checkbox, Radio, createMuiTheme, createTheme } from '@mui/material';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 const config = {
   width: 10,
@@ -31,17 +32,75 @@ const Snake = () => {
     setCurrDot(findOkDot());
   };
 
+  const moveSnake = () => {
+    setSnake(prev => {
+      let nextDot = [prev[0][0], prev[0][1]];
+      if (key === 'ArrowUp') {
+        nextDot[1]--;
+      } else if (key === 'ArrowLeft') {
+        nextDot[0]--;
+      } else if (key === 'ArrowRight') {
+        nextDot[0]++;
+      } else if (key === 'ArrowDown') {
+        nextDot[1]++;
+      }
+
+      setPrevKey(key);
+
+      return [nextDot, ...prev.slice(0, -1)];
+    });
+  };
+
+  const [key, setKey] = useState('ArrowUp');
+  const [prevKey, setPrevKey] = useState('ArrowUp');
+
+  const ticker = useRef(null);
+  const [timer, setTimer] = useState(0);
+  const startGame = () => {
+    ticker.current = setInterval(() => {
+      setTimer(prev => prev + 1);
+    }, 1000);
+  };
+
+  useEffect(() => {
+    moveSnake();
+  }, [timer]);
+
+  useEffect(() => {
+    return () => reset();
+  }, []);
+
+  const reset = () => {
+    clearInterval(ticker.current);
+  };
+
+  useEffect(() => {
+    setInterval(() => {});
+  }, []);
+
+  /*
+  TODOS:
+  [ ] Ensure user can't just go backwards
+  [ ] enable eating the food
+  [ ] speed up gradually
+  [ ] clean up
+  */
+
   return (
-    <div>
+    <div onKeyDown={e => setKey(e.key)}>
       <button onClick={scrambleDot}>Scramble</button>
+      <button onClick={startGame}>Start</button>
+      <button onClick={reset}>Stop</button>
+      <h1>{timer} </h1>
 
       {Array.from(Array(config.height)).map((x, idxY) => {
         return (
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex' }} key={`row-${idxY}`}>
             {Array.from(Array(config.width)).map((y, idxX) => {
-              if (idxX === currDot[0] && idxY === currDot[1]) return <Radio checked={true} style={{ color: 'pink' }} />;
+              if (idxX === currDot[0] && idxY === currDot[1])
+                return <Radio key={[idxX, idxY]} style={{ backgroundColor: 'rgba(256, 255, 0, 0.3' }} checked={true} />;
 
-              return <Checkbox checked={isSnake(idxX, idxY)} />;
+              return <Checkbox key={[idxX, idxY]} checked={isSnake(idxX, idxY)} />;
             })}
           </div>
         );
