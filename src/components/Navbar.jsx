@@ -1,6 +1,5 @@
 import 'styles/components/Navbar.scss';
 import 'styles/components/ThemeSwitch.scss';
-import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useThemeContext } from 'providers/ThemeProvider';
 
