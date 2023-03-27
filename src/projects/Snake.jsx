@@ -65,7 +65,7 @@ const Snake = () => {
 
   const isIntersect = useCallback(
     (points = [0, 0], nextDot = snake[0]) => {
-      console.log(points, nextDot);
+      // console.log(points, nextDot);
       const headX = nextDot[0];
       const headY = nextDot[1];
       if (headX === points[0] && headY === points[1]) {

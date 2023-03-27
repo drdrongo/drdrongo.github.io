@@ -1,49 +1,42 @@
 import 'styles/pages/ProjectsPage.scss';
-import React, { useState, useMemo, useCallback } from 'react';
-import DrumKit from 'projects/DrumKit';
-import MessageBoard from 'projects/MessageBoard';
-import Snake from 'projects/Snake';
+import { useMemo } from 'react';
+import { NavLink, Outlet, useOutlet } from 'react-router-dom';
 
 const ProjectsPage = () => {
+  const outlet = useOutlet()
+
   const projects = useMemo(
     () => [
-      { title: 'Drum Machine', Component: DrumKit },
-      { title: 'Message Board', Component: MessageBoard },
-      { title: 'Snake', Component: Snake },
+      { title: 'Drum Machine', name: 'drumkit' },
+      { title: 'Message Board', name: 'messageboard' },
+      { title: 'Snake', name: 'snake' },
     ],
     []
   );
 
-  const [currentProject, setCurrentProject] = useState('Snake');
-
-  const renderCurrentProject = useCallback(() => {
-    if (!currentProject) return;
-
-    const { Component } = projects.find(proj => proj.title === currentProject);
-    return <Component />;
-  }, [currentProject, projects]);
-
   const projectsList = useMemo(
     () =>
-      projects.map(({ title }) => {
+      projects.map(({ title, name }) => {
         return (
-          <button
-            className={`project-selector-button ${currentProject === title ? 'selected' : ''}`}
-            key={title}
-            onClick={() => setCurrentProject(title)}
+          <NavLink
+            activeClassName='selected'
+            to={name}
+            className='project-selector-button'
           >
             {title}
-          </button>
+          </NavLink>
         );
       }),
-    [projects, currentProject]
+    [projects]
   );
 
   return (
-    <div className="content">
-      <h1 className="header-text">Projects</h1>
-      <div className="projects-list">{projectsList}</div>
-      <div className="current-project">{renderCurrentProject()}</div>
+    <div className='content Projects content'>
+      <h1 className='header-text'>Projects</h1>
+      <div className='projects-list'>{projectsList}</div>
+      <div className='current-project'>
+        {outlet || <div style={{ margin: 'auto' }}>Select a project to get started!</div>}
+      </div>
     </div>
   );
 };

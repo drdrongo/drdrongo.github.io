@@ -16,20 +16,23 @@ const { GoogleSpreadsheet } = require('google-spreadsheet');
 /**
  *
  */
-const doc = new GoogleSpreadsheet(process.env.REACT_APP_GOOGLE_SHEET_ID);
 
-const colorMap = {
-  white: 'white',
-  red: '#EA2B1F',
-  orange: '#FF8811',
-  yellow: '#FFC600',
-  green: '#329F5B',
-  blue: '#2EC0F9',
-  purple: '#A882DD',
-  pink: '#FCB5B5',
-};
 
 const MessageBoard = () => {
+
+  const doc = useMemo(() => new GoogleSpreadsheet(process.env.REACT_APP_GOOGLE_SHEET_ID), []);
+
+  const colorMap = useMemo(() => ({
+    white: 'white',
+    red: '#EA2B1F',
+    orange: '#FF8811',
+    yellow: '#FFC600',
+    green: '#329F5B',
+    blue: '#2EC0F9',
+    purple: '#A882DD',
+    pink: '#FCB5B5',
+  }), []);
+
   const { isLight } = useThemeContext();
 
   const censor = useMemo(() => new BadWordFilter(), []);
@@ -79,7 +82,9 @@ const MessageBoard = () => {
   };
 
   const addRow = useCallback(async () => {
-    if (!message.length) return;
+    if (!message.length || !sheet) return;
+
+    if (!sheet) return console.error('Sheet missing in addrow')
 
     const content = censor.clean(message);
     setMessage('');
@@ -106,11 +111,22 @@ const MessageBoard = () => {
     return () => clearInterval(msgIntv);
   }, [fetcharoo]);
 
+  const creds = {
+    client_email: process.env?.REACT_APP_GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    private_key: process.env?.REACT_APP_GOOGLE_PRIVATE_KEY,
+  }
+
   useEffect(() => {
+    console.log(creds)
+    if (!creds.client_email || !creds.private_key) {
+      console.error('Missing google api credentials');
+      return false;
+    }
+
     (async () => {
       await doc.useServiceAccountAuth({
-        client_email: process.env.REACT_APP_GOOGLE_SERVICE_ACCOUNT_EMAIL,
-        private_key: process.env.REACT_APP_GOOGLE_PRIVATE_KEY.replace(/\\n/gm, '\n'),
+        client_email: creds.client_email,
+        private_key: creds.private_key?.replace(/\\n/gm, '\n'),
       });
       await doc.getInfo();
       changeSheet(0);

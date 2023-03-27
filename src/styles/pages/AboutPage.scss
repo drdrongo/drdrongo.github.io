@@ -1,13 +1,11 @@
 .About {
-  .content {
-    flex-grow: 1;
-    max-width: 56rem;
-    flex-grow: 1;
-    align-self: center;
-    display: flex;
-    flex-direction: column;
-    padding: 4rem 0;
-  }
+  flex-grow: 1;
+  max-width: 56rem;
+  flex-grow: 1;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 0;
 
   .header-text {
     font-size: 4rem;
