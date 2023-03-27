@@ -13,6 +13,10 @@
     "@mui/lab": "^5.0.0-alpha.119",
     "@mui/material": "^5.11.8",
     "@mui/styles": "^5.11.7",
+    "@types/jest": "^29.5.0",
+    "@types/node": "^18.15.10",
+    "@types/react": "^18.0.29",
+    "@types/react-dom": "^18.0.11",
     "axios": "^1.2.5",
     "bad-words": "^3.0.4",
     "dotenv": "^16.0.3",
@@ -25,10 +29,11 @@
     "react-autosize-textarea": "^7.1.0",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.42.1",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^6.9.0",
     "react-scripts": "4.0.3",
     "react-transition-group": "^4.4.2",
-    "sass": "^1.37.0"
+    "sass": "^1.37.0",
+    "typescript": "^5.0.2"
   },
   "scripts": {
     "predeploy": "npm run build",
@@ -37,6 +42,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
   },
   "eslintConfig": {
     "extends": [
